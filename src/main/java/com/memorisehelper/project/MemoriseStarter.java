@@ -1,25 +1,27 @@
 package com.memorisehelper.project;
 
-import java.io.IOException;
+import java.util.Scanner;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import com.memorisehelper.utils.MemoriseUtil;
 
 /**
  * Hello world!
  *
  */
 public class MemoriseStarter {
-    public static void main(String[] args) throws IOException {
-        getWord();
+
+    private Scanner scan;
+
+    public String writeWord() {
+        System.out.println("Please wright word thet you would like to memorise ==> ");
+        String word = "";
+        while (true) {
+            word = scan.nextLine();
+            if (MemoriseUtil.checkWord(word))
+                    break;
+        }
+        return word;
     }
 
-    private static void getWord() throws IOException {
-        String url = "https://context.reverso.net/перевод/английский-русский/cat";
-        Document doc = Jsoup.connect(url).get();
-        // Elements elements = doc.select("body");
-        Elements elements = doc.select("body > div[id=wrapper] > section > div[class=left-content] > section[id=top-results]");
-        System.out.println(elements.toString());
-    }
+
 }
