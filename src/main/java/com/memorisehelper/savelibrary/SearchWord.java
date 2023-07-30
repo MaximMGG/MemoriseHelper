@@ -12,7 +12,6 @@ public class SearchWord {
 
 
     private static final String URL_TRANSLATOR = "https://context.reverso.net/перевод/английский-русский/";
-    private static final String GOOGLE_ASKING= "https://www.google.com/search?q=";
 
     
  
@@ -24,7 +23,7 @@ public class SearchWord {
         System.out.println(elements.toString());
     }
 
-    private List<String> getTranslations(String word) throws IOException {
+    public List<String> getTranslations(String word) throws IOException {
         List<String> list = new ArrayList<>();
         Elements elements = createConnection(word).select("body > div[id=wrapper] > section > div[class=left-content] > section[id=top-results]" + 
         " > div[id=translations-content] > a > span[class=display-term]");
@@ -45,13 +44,5 @@ public class SearchWord {
         String url = URL_TRANSLATOR + word;
         return Jsoup.connect(url).get();
     
-    }
-
-    private String askInGoogleCorrectWord(String word) throws IOException {
-            String url = GOOGLE_ASKING + word;
-            Document doc = Jsoup.connect(url).get();
-            Elements el = doc.select("body > div[class=main] > div > div[class=GyAeWb] > div[class=s6JM6d] > div[id=taw]" +
-            " > div[id=oFNiHe] > p > a > b > i");
-            return el.text();
     }
 }
