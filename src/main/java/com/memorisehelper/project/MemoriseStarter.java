@@ -25,7 +25,10 @@ public class MemoriseStarter {
     }
 
     public void startSavinLibraryModule() throws IOException {
-        saveWord();
+        while (true) {
+            saveWord();
+            System.out.println("");
+        }
     }
 
     private String writeWord() throws IOException {
@@ -34,7 +37,7 @@ public class MemoriseStarter {
         while (true) {
             word = scan.nextLine();
             if (MemoriseUtil.checkWord(word))
-                    break;
+                break;
         }
         String checkWord = MemoriseUtil.askInGoogleCorrectWord(word);
         if (!(word.equals(checkWord))) {
@@ -46,11 +49,17 @@ public class MemoriseStarter {
         }
         return word;
     }
+
     private void saveWord() throws IOException {
         String word = writeWord();
         String translation = writeTranslation(word);
-        // library.put(, null)
+        System.out.println("Your word is : " + word + "and translation is : " + (translation));
+        System.out.println("Continious?");
+        if (askUser() == 1) {
+            library.put(word, translation);
+        } else {
 
+        }
     }
 
     private String writeTranslation(String word) throws IOException {
@@ -64,11 +73,22 @@ public class MemoriseStarter {
             System.out.println();
         }
         String userChoose = scan.nextLine();
-        String translation = getTranslations(userChoose, translations);
-        return null;
+        return getTranslations(userChoose, translations);
     }
 
     private String getTranslations(String userChoose, List<String> translations) {
-        return null;
+        List<Integer> numbersOfTranslation = MemoriseUtil.parsingUserChoose(userChoose);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < numbersOfTranslation.size(); i++) {
+            sb.append(translations.get(numbersOfTranslation.get(i) - 1));
+            if (i != numbersOfTranslation.size() - 1) {
+                sb.append(", ");
+            }
+        }
+        return sb.toString();
+    }
+    private int askUser() {
+        System.out.print("1. Yes\n2. No\n");
+        return scan.nextInt();
     }
 }
