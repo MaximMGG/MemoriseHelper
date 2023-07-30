@@ -21,6 +21,5 @@ public class MemoriseStarter {
         // Elements elements = doc.select("body");
         Elements elements = doc.select("body > div[id=wrapper] > section > div[class=left-content] > section[id=top-results]");
         System.out.println(elements.toString());
-
     }
 }
