@@ -20,7 +20,7 @@ public class MemoriseStarter {
         MemoriseStarter ms = new MemoriseStarter();
         // Document document = ms.createConnection("implimentysing");
         // System.out.println(ms.correctWord(document));
-        System.out.println(ms.askInGoogleCorrectWord("exist"));
+        System.out.println(ms.askInGoogleCorrectWord("implementyzing"));
         
     }
 
