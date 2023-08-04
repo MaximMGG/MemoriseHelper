@@ -1,12 +1,15 @@
 package com.memorisehelper.project;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.lang.FdLibm.Pow;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import com.memorisehelper.hardwirework.DiskWorker;
+import com.memorisehelper.savelibrary.SearchWord;
+import com.memorisehelper.utils.MemoriseUtil;
 
 /**
  * Hello world!
@@ -14,44 +17,97 @@ import org.jsoup.select.Elements;
  */
 public class MemoriseStarter {
 
-    private static final String URL_TRANSLATOR = "https://context.reverso.net/перевод/английский-русский/";
-    
-    public static void main(String[] args) throws IOException {
-        MemoriseStarter ms = new MemoriseStarter();
-        // Document document = ms.createConnection("implimentysing");
-        // System.out.println(ms.correctWord(document));
-        System.out.println(ms.askInGoogleCorrectWord("implementyzing"));
+    private Scanner scan;
+    private Map<String, String> library;
+    private SearchWord sw;
+    private boolean continious;
+    private DiskWorker diskWorker;
+
+    public MemoriseStarter() {
+        library = new HashMap<>();
+        sw = new SearchWord();
+        diskWorker = new DiskWorker();
+    }
+
+    public void startSavinLibraryModule() throws IOException {
+        continious = true;
+        while (continious) {
+            saveWord();
+            System.out.println("");
+        }
+        if (!(library.isEmpty()))
+        System.out.print("Do you want to save your library?");
+        int askUser = askUser();
+        if (askUser == 1) {
+           diskWorker.saveLibraryOnDisk(library);
+        }
         
     }
 
-    private List<String> getTranslations(String word) throws IOException {
-        List<String> list = new ArrayList<>();
-        Elements elements = createConnection(word).select("body > div[id=wrapper] > section > div[class=left-content] > section[id=top-results]" + 
-        " > div[id=translations-content] > a > span[class=display-term]");
-        for (int i = 0; i < 5; i++) {
-            list.add(elements.get(i).text());
+    private String writeWord() throws IOException {
+        System.out.print("Please wright word that you would like to memorise ==> ");
+        String word = "";
+        while (true) {
+            word = scan.nextLine();
+            if (MemoriseUtil.checkWord(word))
+                break;
         }
-        return list;
+        String checkWord = MemoriseUtil.askInGoogleCorrectWord(word);
+        if (!(word.equals(checkWord))) {
+            System.out.println("Meybe you meen -> checkWord?" + "\n" + "1. Yes" + "\n" + "2. No");
+        }
+        int answer = scan.nextInt();
+        if (answer == 1) {
+            return checkWord;
+        }
+        return word;
     }
 
-    private String correctWord(Document document) {
-        Elements elements = document.select("body > div[id=wrapper] > section[id=body-content] > div[class=left-content]" +
-        " > section[id=top-results] > section[id=search-options] > div[class=title-content]");
-        return elements.toString();
+    private void saveWord() throws IOException {
+        String word = writeWord();
+        String translation = writeTranslation(word);
+        System.out.println("Your word is : " + word + "and translation is : " + (translation));
+        System.out.println("Continious?");
+        if (askUser() == 1) {
+            library.put(word, translation);
+        } else {
+            continious = false;
+            exit();
+        }
     }
 
 
-    private Document createConnection(String word) throws IOException {
-        String url = URL_TRANSLATOR + word;
-        return Jsoup.connect(url).get();
-    
+    private String writeTranslation(String word) throws IOException {
+        System.out.println("Which translation do you prefer? (Choose one ore more)");
+        List<String> translations = sw.getTranslations(word);
+        for (int i = 0; i < translations.size(); i++) {
+            System.out.printf((i + 1) + ". " + translations.get(i));
+            if (i == 0) {
+                System.out.printf("(DEFOULT)");
+            }
+            System.out.println();
+        }
+        String userChoose = scan.nextLine();
+        return getTranslations(userChoose, translations);
     }
 
-    private String askInGoogleCorrectWord(String word) throws IOException {
-            String url = "https://www.google.com/search?q=" + word;
-            Document doc = Jsoup.connect(url).get();
-            Elements el = doc.select("body > div[class=main] > div > div[class=GyAeWb] > div[class=s6JM6d] > div[id=taw]" +
-            " > div[id=oFNiHe] > p > a > b > i");
-            return el.text();
+    private String getTranslations(String userChoose, List<String> translations) {
+        List<Integer> numbersOfTranslation = MemoriseUtil.parsingUserChoose(userChoose);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < numbersOfTranslation.size(); i++) {
+            sb.append(translations.get(numbersOfTranslation.get(i) - 1));
+            if (i != numbersOfTranslation.size() - 1) {
+                sb.append(", ");
+            }
+        }
+        return sb.toString();
+    }
+
+    private int askUser() {
+        System.out.print("1. Yes\n2. No\n");
+        return scan.nextInt();
+    }
+
+    private void exit() { 
     }
 }

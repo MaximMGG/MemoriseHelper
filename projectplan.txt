@@ -1,0 +1,30 @@
+(1) - The first module.
+This modul work with creating libraries of words and save them on disk.
+1 -- Class for searching translation of word and return List<String> of tranlations (probably less then 5 translations)
+2 -- Class for spiking with user and take from user words.
+3 -- Class for saving information about user and his libraries.
+4 -- Class for creating libraries and save words and wright libraries on disk(here we need some logic about statys of 
+library, for example -> learned, or in proces, or ready to memorise).
+
+(2) - The second module.
+This modul can modify users libraries and show for user content from library
+1 -- Class for reading users filesystem and thearching saved libraries (probably info abount names of library will save 
+in *.txt file, this file will contain only names of libraries)
+2 -- Class for showing for user content from his library.
+3 -- Class for modifying libraries(for example user will can choose delete word and translation, or change only translation
+of same word or change word and translation)
+4 -- Class for spiking with user and take from user words and some commands.
+
+(3)- The third module.
+This module work with momerising words, user chooses library wich he wonts to memorise and learn words.
+1 -- Class for spiking with user, asking him abount wich library he wont to memorise, takes from user info.
+2 -- Class with memorise logic(for example showing users english word and asking of translation, if he will does mistake, 
+program promt him where he did mistake)
+3 -- Class for change library statys(this meens that class can remember with word user memorise, and wich not, and if 
+user wont in the future beck to memorise this library, need to ask him abount how he wont to continious, form begin or from 
+place where he stoped)
+
+(4) -- The fouth module.
+This module can menage another moduls, he can stop any proces, and save user progress, this main module for spik with user.
+1 -- ClassStarter of program.
+2 -- Class for checking user status, if user wont to stop memorising or stop to wright word for memorise.
