@@ -1,13 +1,12 @@
 package com.memorisehelper.project;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import com.memorisehelper.hardwirework.DiskWorker;
 import com.memorisehelper.savelibrary.SearchWord;
 import com.memorisehelper.utils.MemoriseUtil;
 
@@ -20,21 +19,32 @@ public class MemoriseStarter {
 	private Scanner scan;
     private Map<String, String> library;
     private SearchWord sw;
+    private boolean continious;
+    private DiskWorker diskWorker;
 
     public MemoriseStarter() {
         library = new HashMap<>();
         sw = new SearchWord();
+        diskWorker = new DiskWorker();
     }
 
     public void startSavinLibraryModule() throws IOException {
-        while (true) {
+        continious = true;
+        while (continious) {
             saveWord();
             System.out.println("");
         }
+        if (!(library.isEmpty()))
+        System.out.print("Do you want to save your library?");
+        int askUser = askUser();
+        if (askUser == 1) {
+           diskWorker.saveLibraryOnDisk(library);
+        }
+        
     }
 
     private String writeWord() throws IOException {
-        System.out.println("Please wright word that you would like to memorise ==> ");
+        System.out.print("Please wright word that you would like to memorise ==> ");
         String word = "";
         while (true) {
             word = scan.nextLine();
@@ -60,9 +70,11 @@ public class MemoriseStarter {
         if (askUser() == 1) {
             library.put(word, translation);
         } else {
-
+            continious = false;
+            exit();
         }
     }
+
 
     private String writeTranslation(String word) throws IOException {
         System.out.println("Which translation do you prefer? (Choose one ore more)");
@@ -77,7 +89,7 @@ public class MemoriseStarter {
         String userChoose = scan.nextLine();
         return getTranslations(userChoose, translations);
     }
-?
+
     private String getTranslations(String userChoose, List<String> translations) {
         List<Integer> numbersOfTranslation = MemoriseUtil.parsingUserChoose(userChoose);
         StringBuilder sb = new StringBuilder();
@@ -89,8 +101,11 @@ public class MemoriseStarter {
         }
         return sb.toString();
     }
+
     private int askUser() {
         System.out.print("1. Yes\n2. No\n");
         return scan.nextInt();
+    }
+    private void exit() {
     }
 }
