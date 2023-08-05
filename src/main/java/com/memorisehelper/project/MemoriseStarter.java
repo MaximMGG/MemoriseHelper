@@ -1,6 +1,8 @@
 package com.memorisehelper.project;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +17,7 @@ import com.memorisehelper.utils.MemoriseUtil;
  */
 public class MemoriseStarter {
 
-    private Scanner scan;
+	private Scanner scan;
     private Map<String, String> library;
     private SearchWord sw;
 
@@ -41,7 +43,7 @@ public class MemoriseStarter {
         }
         String checkWord = MemoriseUtil.askInGoogleCorrectWord(word);
         if (!(word.equals(checkWord))) {
-            System.out.println("Meybe you meen -> checkWord?" + "\n" + "1. Yes" + "\n" + "2. No");
+            System.out.println("Meybe you meen -> " + checkWord + "?\n" + "1. Yes" + "\n" + "2. No");
         }
         int answer = scan.nextInt();
         if (answer == 1) {
@@ -75,7 +77,7 @@ public class MemoriseStarter {
         String userChoose = scan.nextLine();
         return getTranslations(userChoose, translations);
     }
-
+?
     private String getTranslations(String userChoose, List<String> translations) {
         List<Integer> numbersOfTranslation = MemoriseUtil.parsingUserChoose(userChoose);
         StringBuilder sb = new StringBuilder();
