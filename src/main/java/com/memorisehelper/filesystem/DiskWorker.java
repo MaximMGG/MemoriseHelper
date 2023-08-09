@@ -21,7 +21,10 @@ public class DiskWorker {
     public static void main(String[] args) throws IOException {
         DiskWorker dw = new DiskWorker("Petr");
         // dw.createUserLibraryDir();
-        dw.correntUserConfig();
+        // dw.correntUserConfig();
+        dw.wrightUserInfo();
+        // dw.addLibraryInUserConfig("Hello");
+        // dw.createUserConfig();
     }
 
     public String getUserName() {
@@ -55,7 +58,7 @@ public class DiskWorker {
     }
 
     public boolean saveLibraryOnDisk(Map<String, String> library, String libraryName) throws IOException {
-        Files.writeString(Path.of(PATH_TO_USER_COFIG), "\n" + libraryName, StandardOpenOption.APPEND);
+        addLibraryInUserConfig(libraryName);
         File libraryFile = new File("resources/libraries/" + userName + "Library/" + libraryName + ".txt");
         libraryFile.createNewFile();
         for (Map.Entry<String, String> entry : library.entrySet()) {
@@ -63,6 +66,22 @@ public class DiskWorker {
             (entry.getKey() + " : " + entry.getValue() + "\n"), StandardOpenOption.APPEND);
         }
         return true;
+    }
+
+    private void addLibraryInUserConfig(String libraryName) throws IOException {
+        List<String> userConfig = Files.readAllLines(Path.of(PATH_TO_USER_COFIG));
+        for (int i = 0; i < userConfig.size(); i++) {
+            String[] parsString = userConfig.get(i).split(" ");
+            if (parsString[0].equals("username:")) {
+                if (parsString[1].equals(userName)) {
+                   userConfig.add(i + 1, userConfig.get(i + 1) + " " + libraryName);
+                }
+            }
+        }
+        Files.writeString(Path.of(PATH_TO_USER_COFIG), "", StandardOpenOption.TRUNCATE_EXISTING);
+        for(String s : userConfig) {
+            Files.writeString(Path.of(PATH_TO_USER_COFIG), s, StandardOpenOption.APPEND);
+        }
     }
 
     private void wrightUserInfo() throws IOException {
