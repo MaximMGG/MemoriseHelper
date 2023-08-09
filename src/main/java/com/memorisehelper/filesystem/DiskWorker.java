@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DiskWorker {
 
@@ -14,47 +17,57 @@ public class DiskWorker {
     private final String PATH_TO_USER_COFIG = "resources/userInfo.txt";
     private final String PATH_TO_LIBRARY_DIR = "resources/libraries";
 
-    public DiskWorker(String userName) {
+    public DiskWorker(String userName) throws IOException {
         this.userName = userName;
+        if (!userConfig()) {
+            createUserConfig();
+            createResourcesDir();
+        } else {
+            if (!userExist()) {
+                createUserLibraryDir();
+                wrightUserInfo();
+            }
+        }
     }
-
     public static void main(String[] args) throws IOException {
         DiskWorker dw = new DiskWorker("Petr");
         // dw.createUserLibraryDir();
         // dw.correntUserConfig();
-        dw.wrightUserInfo();
-        // dw.addLibraryInUserConfig("Hello");
+        // dw.wrightUserInfo();
+        // dw.addLibraryInUserConfig("Cats");
         // dw.createUserConfig();
+        // System.out.println(dw.userExist());
+       System.out.println(dw.getUserLibraries());
     }
 
     public String getUserName() {
         return userName;
     }
 
-    public List<String> getUserLibraries() throws IOException {
-        List<String> libraries = Files.readAllLines(Path.of(PATH_TO_USER_COFIG)).stream()
-       .skip(2)
-       .toList();
-        return libraries;
-    }
-
-    public void initializeUser(String userName) throws IOException {
-        this.userName = userName;
-        if (!userConfig()) {
-            createUserConfig();
-            createResourcesDir();
-        } else {
-            if (correntUserConfig()) {
-
+    private boolean userExist() throws IOException {
+        List<String> usersConfig = Files.readAllLines(Path.of(PATH_TO_USER_COFIG));
+        List<String> users = new ArrayList<>();
+        for (String user : usersConfig) {
+            Pattern p = Pattern.compile("username: ([A-z]*)");
+            Matcher m = p.matcher(user);
+            if (m.find()) {
+                users.add(m.group(1));
             }
         }
+        return users.contains(userName);
     }
 
-    private boolean correntUserConfig() throws IOException {
-        Path of = Path.of(PATH_TO_LIBRARY_DIR + "/" + userName + "Library");
-        List<Path> list = Files.walk(of).toList();
-        System.out.println(list);
-        return false;
+    public List<String> getUserLibraries() throws IOException {
+        List<String> libraries = Files.readAllLines(Path.of(PATH_TO_USER_COFIG));
+        String username = "username: " + userName;
+        List<String> lib = new ArrayList<>();
+        for (int i = 0; i < libraries.size(); i++) {
+           if (username.equals(libraries.get(i))) {
+                String[] split = libraries.get(i + 1).split(" ");
+                lib = List.of(split);
+           }
+        }
+        return lib.stream().skip(1).toList();
     }
 
     public boolean saveLibraryOnDisk(Map<String, String> library, String libraryName) throws IOException {
@@ -63,7 +76,7 @@ public class DiskWorker {
         libraryFile.createNewFile();
         for (Map.Entry<String, String> entry : library.entrySet()) {
             Files.writeString(Path.of(PATH_TO_LIBRARY_DIR + "/" + libraryName + ".txt"),
-            (entry.getKey() + " : " + entry.getValue() + "\n"), StandardOpenOption.APPEND);
+                    (entry.getKey() + " : " + entry.getValue() + "\n"), StandardOpenOption.APPEND);
         }
         return true;
     }
@@ -74,13 +87,16 @@ public class DiskWorker {
             String[] parsString = userConfig.get(i).split(" ");
             if (parsString[0].equals("username:")) {
                 if (parsString[1].equals(userName)) {
-                   userConfig.add(i + 1, userConfig.get(i + 1) + " " + libraryName);
+                    String a = userConfig.get(i + 1);
+                    userConfig.remove(i + 1);
+                    userConfig.add(a + " " + libraryName);
                 }
+                Files.writeString(Path.of(PATH_TO_USER_COFIG), "", StandardOpenOption.TRUNCATE_EXISTING);
+                for (String s : userConfig) {
+                    Files.writeString(Path.of(PATH_TO_USER_COFIG), s + "\n", StandardOpenOption.APPEND);
+                }
+
             }
-        }
-        Files.writeString(Path.of(PATH_TO_USER_COFIG), "", StandardOpenOption.TRUNCATE_EXISTING);
-        for(String s : userConfig) {
-            Files.writeString(Path.of(PATH_TO_USER_COFIG), s, StandardOpenOption.APPEND);
         }
     }
 
@@ -88,11 +104,11 @@ public class DiskWorker {
         String userInfoWright = "username: " + userName;
         String userLibraries = "userLibraries: ";
         Files.writeString(Path.of(PATH_TO_USER_COFIG), (userInfoWright + "\n" + userLibraries),
-        StandardOpenOption.APPEND);
+                StandardOpenOption.APPEND);
     }
 
     private void createUserConfig() throws IOException {
-        File file = new File("resources" , "userInfo.txt");
+        File file = new File("resources", "userInfo.txt");
         file.createNewFile();
     }
 
