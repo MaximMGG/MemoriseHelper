@@ -42,4 +42,8 @@ public class MemoriseUtils {
         }
         return result;
     }
+
+    public static int checkInt() {
+        return 0;
+    }
 }
