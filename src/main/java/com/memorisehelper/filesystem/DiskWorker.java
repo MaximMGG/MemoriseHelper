@@ -11,13 +11,17 @@ import java.util.Map;
 public class DiskWorker {
 
     private String userName;
-    private List<String> userLibraries;
     private final String PATH_TO_USER_COFIG = "resources/userInfo.txt";
     private final String PATH_TO_LIBRARY_DIR = "resources/libraries";
 
+    public DiskWorker(String userName) {
+        this.userName = userName;
+    }
+
     public static void main(String[] args) throws IOException {
-        DiskWorker dw = new DiskWorker();
-        System.out.println(dw.getLibraryContent("RegularWords"));
+        DiskWorker dw = new DiskWorker("Petr");
+        // dw.createUserLibraryDir();
+        dw.correntUserConfig();
     }
 
     public String getUserName() {
@@ -36,13 +40,23 @@ public class DiskWorker {
         if (!userConfig()) {
             createUserConfig();
             createResourcesDir();
-        }
+        } else {
+            if (correntUserConfig()) {
 
+            }
+        }
+    }
+
+    private boolean correntUserConfig() throws IOException {
+        Path of = Path.of(PATH_TO_LIBRARY_DIR + "/" + userName + "Library");
+        List<Path> list = Files.walk(of).toList();
+        System.out.println(list);
+        return false;
     }
 
     public boolean saveLibraryOnDisk(Map<String, String> library, String libraryName) throws IOException {
         Files.writeString(Path.of(PATH_TO_USER_COFIG), "\n" + libraryName, StandardOpenOption.APPEND);
-        File libraryFile = new File("resources/libraries/" + libraryName + ".txt");
+        File libraryFile = new File("resources/libraries/" + userName + "Library/" + libraryName + ".txt");
         libraryFile.createNewFile();
         for (Map.Entry<String, String> entry : library.entrySet()) {
             Files.writeString(Path.of(PATH_TO_LIBRARY_DIR + "/" + libraryName + ".txt"),
@@ -55,8 +69,7 @@ public class DiskWorker {
         String userInfoWright = "username: " + userName;
         String userLibraries = "userLibraries: ";
         Files.writeString(Path.of(PATH_TO_USER_COFIG), (userInfoWright + "\n" + userLibraries),
-        StandardOpenOption.CREATE);
-
+        StandardOpenOption.APPEND);
     }
 
     private void createUserConfig() throws IOException {
@@ -69,14 +82,16 @@ public class DiskWorker {
     }
 
     private void createResourcesDir() throws IOException {
-        Path resources = Path.of("resources");
-        Files.createDirectory(resources);
-        Path libr = Path.of("resources/libraries");
-        Files.createDirectory(libr);
+        Files.createDirectory(Path.of("resources"));
+        Files.createDirectory(Path.of("resources/libraries"));
     }
 
     private List<String> getLibraryContent(String libraryName) throws IOException {
+        String path = PATH_TO_LIBRARY_DIR + "/" + userName + "Library/" + libraryName + ".txt";
+        return Files.readAllLines(Path.of(path));
+    }
 
-        return Files.readAllLines(Path.of(PATH_TO_LIBRARY_DIR + "/" + libraryName + ".txt"));
+    private void createUserLibraryDir() throws IOException {
+        Files.createDirectory(Path.of(PATH_TO_LIBRARY_DIR + "/" + userName + "Library"));
     }
 }
