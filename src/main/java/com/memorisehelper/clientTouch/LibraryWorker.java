@@ -67,27 +67,28 @@ public class LibraryWorker {
         if (yesNo()) {
             putWordAtLibrary();
         } else {
-            System.out.println("Do you want to save this library");
-            System.out.println("1. Save library");
-            System.out.println("2. Show content of library");
-            System.out.println("3. Change some words");
-            System.out.println("4. Delete library");
-            if (yesNo()) {
-                try {
+            switch (saveLibraryMenu()) {
+                case 1 -> {
                     new DiskWorker(this.userName).saveLibraryOnDisk(currentLibrary, libraryName);
                     System.out.println("Library saved");
                     new StartApp().mainMenuUserChose();
-                } catch (IOException e) {
-                    System.out.println("Something went wrong, try agane?");
-                    if (yesNo()) {
-                        saveLibraryCrossroad();
-                    } else {
-                    }
                 }
-            } else {
-
+                case 2 -> {
+                    new DiskWorker(userName).getLibraryContent(libraryName);
+                    saveLibraryCrossroad();
+                }
+                case 3 ->  w
             }
         }
+    }
+
+    private int saveLibraryMenu() {
+        System.out.println("Do you want to save this library");
+        System.out.println("1. Save library");
+        System.out.println("2. Show content of library");
+        System.out.println("3. Change some words");
+        System.out.println("4. Delete library");
+        return MemoriseUtils.writeInt();
     }
 
     private String getTranslations(String word) throws IOException {
@@ -98,6 +99,7 @@ public class LibraryWorker {
         System.out.println("You can choose one or more translations");
         System.out.println("Wright for example: 1 2 5");
         String tr = prepareteTranslations(translations);
+        return tr;
     }
 
     private String prepareteTranslations(List<String> translations) {
@@ -110,6 +112,7 @@ public class LibraryWorker {
                 build.append(", ");
             }
         }
+        return build.toString();
     }
 
     private boolean yesNo() {
@@ -120,6 +123,13 @@ public class LibraryWorker {
             yesNo();
         }
         return answer == 1;
+    }
+    private void showContentOfNotSaveLibrary() {
+        int i = 0;
+        for(Map.Entry<String, String> entry : currentLibrary.entrySet()) {
+            System.out.println(entry.getKey() + " - " + entry.getValue());
+            i++;
+        }
     }
 
     public Object showAllLibraries() {

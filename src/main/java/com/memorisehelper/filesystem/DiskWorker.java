@@ -121,7 +121,7 @@ public class DiskWorker {
         Files.createDirectory(Path.of("resources/libraries"));
     }
 
-    private List<String> getLibraryContent(String libraryName) throws IOException {
+    public List<String> getLibraryContent(String libraryName) throws IOException {
         String path = PATH_TO_LIBRARY_DIR + "/" + userName + "Library/" + libraryName + ".txt";
         return Files.readAllLines(Path.of(path));
     }

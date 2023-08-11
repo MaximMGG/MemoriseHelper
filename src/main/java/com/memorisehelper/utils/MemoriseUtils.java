@@ -55,4 +55,14 @@ public class MemoriseUtils {
         }
         return number;
     }
+    
+    public static boolean yesNo() {
+        System.out.println("1. Yes\n2. No");
+        int answer = MemoriseUtils.writeInt();
+        if (answer < 1 || answer > 2) {
+            System.out.println("Please, wright 1 or 2");
+            yesNo();
+        }
+        return answer == 1;
+    }
 }
