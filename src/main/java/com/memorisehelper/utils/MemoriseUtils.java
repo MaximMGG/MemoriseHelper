@@ -3,6 +3,7 @@ package com.memorisehelper.utils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,6 +14,7 @@ import org.jsoup.select.Elements;
 public class MemoriseUtils {
 
     private static final String GOOGLE_ASKING = "https://www.google.com/search?q=";
+    private static final Scanner scan = new Scanner(System.in);
 
     public static boolean checkWord(String word) {
         Pattern pattern = Pattern.compile("^[A-z]*$");
@@ -44,6 +46,18 @@ public class MemoriseUtils {
     }
 
     public static int checkInt() {
+
         return 0;
+    }
+
+    public static int writeInt() {
+        int number = 0;
+        try {
+            number = scan.nextInt();
+        } catch (Exception e) {
+            System.out.println("This symbol is not number, please write number");
+            writeInt();
+        }
+        return number;
     }
 }
