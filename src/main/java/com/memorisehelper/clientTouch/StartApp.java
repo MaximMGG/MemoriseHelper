@@ -1,45 +1,51 @@
 package com.memorisehelper.clientTouch;
 
+import java.io.IOException;
 import java.util.Scanner;
 
-import com.memorisehelper.libraries.LibraryWorker;
 import com.memorisehelper.messages.Messages;
 import com.memorisehelper.utils.MemoriseUtils;
 
 public class StartApp {
 
     private Scanner scan = new Scanner(System.in);
+    private String userName;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         StartApp sa = new StartApp();
         sa.appStarts();
     }
 
-    private void appStarts() {
+    private void appStarts() throws IOException {
 
         System.out.println(Messages.greetings);
         String userName = scan.nextLine();
+        this.userName = userName;
         System.out.println("Hello diar " + userName + " good time to learn some new word!");
-        crossroad(mainMenuUserChose());
+        mainMenuUserChose();
     }
 
-    private int mainMenuUserChose() {
+    public void mainMenuUserChose() throws IOException {
 
         System.out.println("What do you prefer to choose?");
         System.out.println("1. Create new library.");
         System.out.println("2. Show all my libraries.");
         System.out.println("3. Change content of library.");
         System.out.println("4. Starting to learn words.");
+        System.out.println("5. Exit");
         System.out.println("Please write down your choose");
-        return MemoriseUtils.writeInt();
+        crossroad(MemoriseUtils.writeInt());
     }
 
-    private void crossroad(int userChoose) {
+    private void crossroad(int userChoose) throws IOException {
         switch(userChoose) {
-            case 1 -> new LibraryWorker().createLibrary();
-            case 2 -> new LibraryWorker().showAllLibraries();
-			case 3 -> new LibraryWorker().changeLibrary();
-			case 4 -> new LibraryWorker().startLearning();
+            case 1 -> new LibraryWorker(userName).createLibrary();
+            case 2 -> new LibraryWorker(userName).showAllLibraries();
+			case 3 -> new LibraryWorker(userName).changeLibrary();
+			case 4 -> new LibraryWorker(userName).startLearning();
+            case 5 -> {
+                System.out.println("Goodbye diar " + userName + "good luck!");
+            }
             default -> {
                 System.out.println("Maybe you wrote incorrect number, please try agane");
                 System.out.println("Please write down your choose");

@@ -45,11 +45,6 @@ public class MemoriseUtils {
         return result;
     }
 
-    public static int checkInt() {
-
-        return 0;
-    }
-
     public static int writeInt() {
         int number = 0;
         try {
