@@ -37,7 +37,9 @@ public class ChangeLibrary {
         String tr = changedLibrary.get(wordPosition);
         System.out.println("What do you want to change, word or translation?");
         System.out.println("1. word\n2. translation");
-        if 
+        if (MemoriseUtils.yesNo()) {
+           System.out.println("Please, wright the word");
+        }
     }
 
 

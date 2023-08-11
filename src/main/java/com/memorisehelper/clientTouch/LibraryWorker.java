@@ -77,7 +77,6 @@ public class LibraryWorker {
                     new DiskWorker(userName).getLibraryContent(libraryName);
                     saveLibraryCrossroad();
                 }
-                case 3 ->  w
             }
         }
     }
