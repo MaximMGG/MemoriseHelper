@@ -75,10 +75,8 @@ public class DiskWorker {
     public boolean saveLibraryOnDisk(Map<String, String> library, String libraryName) throws IOException {
         addLibraryInUserConfig(libraryName);
         File libraryFile = null;
-        try {
-            libraryFile = new File("resources/libraries/" + userName + "Library/" + libraryName + ".txt");
-            libraryFile.createNewFile();
-        } catch (Exception e) {}
+        libraryFile = new File("resources/libraries/" + userName + "Library/" + libraryName + ".txt");
+        libraryFile.createNewFile();
         for (Map.Entry<String, String> entry : library.entrySet()) {
             Files.writeString(Path.of(PATH_TO_LIBRARY_DIR + "/"+ userName + "Library/" + libraryName + ".txt"),
                     (entry.getKey() + " : " + entry.getValue() + "\n"), StandardOpenOption.APPEND);
