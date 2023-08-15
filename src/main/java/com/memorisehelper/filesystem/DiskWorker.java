@@ -20,8 +20,10 @@ public class DiskWorker {
     public DiskWorker(String userName) throws IOException {
         this.userName = userName;
         if (!userConfig()) {
-            createUserConfig();
             createResourcesDir();
+            createUserConfig();
+            createUserLibraryDir();
+            wrightUserInfo();
         } else {
             if (!userExist()) {
                 createUserLibraryDir();
@@ -51,10 +53,10 @@ public class DiskWorker {
             Pattern p = Pattern.compile("username: ([A-z]*)");
             Matcher m = p.matcher(user);
             if (m.find()) {
-                users.add(m.group(1));
+                users.add(m.group(1).toLowerCase());
             }
         }
-        return users.contains(userName);
+        return users.contains(userName.toLowerCase());
     }
 
     public List<String> getUserLibraries() throws IOException {
@@ -72,10 +74,13 @@ public class DiskWorker {
 
     public boolean saveLibraryOnDisk(Map<String, String> library, String libraryName) throws IOException {
         addLibraryInUserConfig(libraryName);
-        File libraryFile = new File("resources/libraries/" + userName + "Library/" + libraryName + ".txt");
-        libraryFile.createNewFile();
+        File libraryFile = null;
+        try {
+            libraryFile = new File("resources/libraries/" + userName + "Library/" + libraryName + ".txt");
+            libraryFile.createNewFile();
+        } catch (Exception e) {}
         for (Map.Entry<String, String> entry : library.entrySet()) {
-            Files.writeString(Path.of(PATH_TO_LIBRARY_DIR + "/" + libraryName + ".txt"),
+            Files.writeString(Path.of(PATH_TO_LIBRARY_DIR + "/"+ userName + "Library/" + libraryName + ".txt"),
                     (entry.getKey() + " : " + entry.getValue() + "\n"), StandardOpenOption.APPEND);
         }
         return true;

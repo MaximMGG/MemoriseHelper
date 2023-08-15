@@ -24,7 +24,7 @@ public class LibraryWorker {
     }
 
     public void createLibrary() throws IOException {
-        System.out.println("Please write dont name of your library");
+        System.out.println("Please write dawn name of your library");
         libraryName = scan.nextLine();
         System.out.println("Awesome name!");
         System.out.println("So, let's start to wrighting words");
@@ -40,7 +40,7 @@ public class LibraryWorker {
             putWordAtLibrary();
         }
         String correctWord = MemoriseUtils.askInGoogleCorrectWord(word);
-        if (!correctWord.equals(word)) {
+        if (!correctWord.equals(word) && correctWord.length() > 1) {
             System.out.println("Mabe your mean " + correctWord + "?");
             if (yesNo()) {
                 System.out.println("Ok, here are translations of the word: " + correctWord + " that we found");
@@ -74,7 +74,7 @@ public class LibraryWorker {
                     new StartApp().mainMenuUserChose();
                 }
                 case 2 -> {
-                    new DiskWorker(userName).getLibraryContent(libraryName);
+                    showContentOfNotSaveLibrary();
                     saveLibraryCrossroad();
                 }
             }
@@ -82,7 +82,6 @@ public class LibraryWorker {
     }
 
     private int saveLibraryMenu() {
-        System.out.println("Do you want to save this library");
         System.out.println("1. Save library");
         System.out.println("2. Show content of library");
         System.out.println("3. Change some words");

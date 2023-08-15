@@ -38,6 +38,11 @@ public class UtilTest {
         assertNotEquals(userChose, uncorrectUtilsList);
 	}
 
+    @Test
+    public void testWrightInt() {
+
+    }
+
 
 
 	 
