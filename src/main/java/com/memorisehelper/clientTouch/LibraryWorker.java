@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import com.memorisehelper.filesystem.DiskWorker;
+import com.memorisehelper.libraries.ChangeLibrary;
 import com.memorisehelper.libraries.SearchWord;
 import com.memorisehelper.utils.MemoriseUtils;
 
@@ -77,6 +78,9 @@ public class LibraryWorker {
                     showContentOfNotSaveLibrary();
                     saveLibraryCrossroad();
                 }
+                case 3 -> {
+                    new ChangeLibrary(currentLibrary);
+                }
             }
         }
     }
@@ -123,23 +127,23 @@ public class LibraryWorker {
         return answer == 1;
     }
     private void showContentOfNotSaveLibrary() {
-        int i = 0;
+        int i = 1;
         for(Map.Entry<String, String> entry : currentLibrary.entrySet()) {
-            System.out.println(entry.getKey() + " - " + entry.getValue());
+            System.out.println(i + ". " + entry.getKey() + " - " + entry.getValue());
             i++;
         }
     }
 
-    public Object showAllLibraries() {
-        return null;
+    public void showAllLibraries() {
+        
     }
 
     public Object startLearning() {
         return null;
     }
 
-    public Object changeLibrary() {
-        return null;
+    public void changeLibrary() {
+
     }
 
 }
