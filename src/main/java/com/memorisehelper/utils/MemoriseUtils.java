@@ -15,6 +15,7 @@ public class MemoriseUtils {
 
     private static final String GOOGLE_ASKING = "https://www.google.com/search?q=";
     private static final Scanner scan = new Scanner(System.in);
+    public static String USERNAME;
 
     public static boolean checkWord(String word) {
         Pattern pattern = Pattern.compile("^[A-z]*$");

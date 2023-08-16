@@ -10,10 +10,17 @@ public class StartApp {
 
     private Scanner scan = new Scanner(System.in);
     private String userName;
+    private final static StartApp INSTANCE = new StartApp();
+
+    private StartApp() {}
+
+
+    public static StartApp getInstance() {
+        return INSTANCE;
+    }
 
     public static void main(String[] args) throws IOException {
-        StartApp sa = new StartApp();
-        sa.appStarts();
+        INSTANCE.appStarts();
     }
 
     private void appStarts() throws IOException {
@@ -21,6 +28,7 @@ public class StartApp {
         System.out.println(Messages.greetings);
         String userName = scan.nextLine();
         this.userName = userName;
+        MemoriseUtils.USERNAME = userName;
         System.out.println("Hello diar " + userName + " good time to learn some new word!");
         mainMenuUserChose();
     }

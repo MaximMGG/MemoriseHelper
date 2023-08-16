@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import com.memorisehelper.clientTouch.StartApp;
+import com.memorisehelper.filesystem.DiskWorker;
 import com.memorisehelper.utils.MemoriseUtils;
 
 public class ChangeLibrary {
@@ -12,9 +14,11 @@ public class ChangeLibrary {
     private Scanner scan = new Scanner(System.in);
     private Map<String, String> currentLibrary;
     private Map<Integer, String> changedLibrary;
+    private String libraryName;
 
-    public ChangeLibrary(Map<String, String> currentLibrary) throws IOException {
+    public ChangeLibrary(Map<String, String> currentLibrary, String libraryName) throws IOException {
         this.currentLibrary = currentLibrary;
+        this.libraryName = libraryName;
         muteCurrentLibrary();
         doChanges(); 
     }
@@ -25,6 +29,14 @@ public class ChangeLibrary {
             changedLibrary.put(i, entry.getKey() + " : " + entry.getValue());
             i++;
         }
+    }
+
+    private void unMuteCurrentLibrary() {
+       currentLibrary.clear(); 
+       for (Map.Entry<Integer, String> entry : changedLibrary.entrySet()) {
+           String[] temp = entry.getValue().split(" : ");
+           currentLibrary.put(temp[0], temp[1]);
+       }
     }
 
     private void printChangedLibrary() {
@@ -43,7 +55,16 @@ public class ChangeLibrary {
             case 1 -> changeWord(index);
             case 2 -> changeTranslation(index);
             case 3 -> deleteWord(index);
-            case 4 -> 
+            case 4 -> {
+                System.out.println("Do you want to save changed library?");
+                if (MemoriseUtils.yesNo()) {
+                    unMuteCurrentLibrary();
+                    new DiskWorker(MemoriseUtils.USERNAME).saveLibraryOnDisk(currentLibrary, libraryName);
+                    StartApp.getInstance().mainMenuUserChose(); 
+                } else {
+                    StartApp.getInstance().mainMenuUserChose(); 
+                }
+            }
             default -> {
                 System.out.println("Sorry, but we do not have this option");
                 doChanges();

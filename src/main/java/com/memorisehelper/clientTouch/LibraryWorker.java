@@ -79,7 +79,7 @@ public class LibraryWorker {
                     saveLibraryCrossroad();
                 }
                 case 3 -> {
-                    new ChangeLibrary(currentLibrary);
+                    new ChangeLibrary(currentLibrary, libraryName);
                 }
             }
         }
