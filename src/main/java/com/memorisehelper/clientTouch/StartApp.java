@@ -28,7 +28,7 @@ public class StartApp {
         System.out.println(Messages.greetings);
         String userName = scan.nextLine();
         this.userName = userName;
-        MemoriseUtils.USERNAME = userName;
+        User user = new User(userName);
         System.out.println("Hello diar " + userName + " good time to learn some new word!");
         mainMenuUserChose();
     }
