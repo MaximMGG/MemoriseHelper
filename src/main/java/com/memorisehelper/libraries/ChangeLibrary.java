@@ -1,7 +1,6 @@
 package com.memorisehelper.libraries;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -9,11 +8,11 @@ import com.memorisehelper.utils.MemoriseUtils;
 
 public class ChangeLibrary {
     
+    private Scanner scan = new Scanner(System.in);
     private Map<String, String> currentLibrary;
     private Map<Integer, String> changedLibrary;
-    private Scanner scan = new Scanner(System.in);
 
-    public ChangeLibrary(Map<String, String> currentLibrary) {
+    public ChangeLibrary(Map<String, String> currentLibrary) throws IOException {
         this.currentLibrary = currentLibrary;
         muteCurrentLibrary();
         doChanges(); 
@@ -33,7 +32,7 @@ public class ChangeLibrary {
         }
     }
 
-    public void doChanges() {
+    public void doChanges() throws IOException {
         printChangedLibrary();
         System.out.println("Please wrigth down number of word that you want to change");
         changeWord(MemoriseUtils.writeInt());
@@ -46,11 +45,11 @@ public class ChangeLibrary {
         if (MemoriseUtils.yesNo()) {
            System.out.println("Please, wright the word");
            String word = scan.nextLine();
-           List<String> translation = new SearchWord().getTranslations(word);
-           for (int i = 0; i < translation.size(); i++) {
-                System.out.println((i + 1) ); 
-           }
-        }
+        }   
+    }
+
+    private String parsChangedMapTranslations(int index) { 
+        return "";
     }
 
 
