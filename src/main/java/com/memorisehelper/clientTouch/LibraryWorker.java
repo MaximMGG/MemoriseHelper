@@ -72,7 +72,7 @@ public class LibraryWorker {
                 case 1 -> {
                     new DiskWorker(this.userName).saveLibraryOnDisk(currentLibrary, libraryName);
                     System.out.println("Library saved");
-                    new StartApp().mainMenuUserChose();
+                    StartApp.getInstance().mainMenuUserChose();
                 }
                 case 2 -> {
                     showContentOfNotSaveLibrary();
