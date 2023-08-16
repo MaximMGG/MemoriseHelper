@@ -1,6 +1,7 @@
 package com.memorisehelper.libraries;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -35,22 +36,61 @@ public class ChangeLibrary {
     public void doChanges() throws IOException {
         printChangedLibrary();
         System.out.println("Please wrigth down number of word that you want to change");
-        changeWord(MemoriseUtils.writeInt());
+        int index = MemoriseUtils.writeInt();
+        System.out.println("What do you want to change? \n1. Etire word and translation" + 
+                " or 2. Translation ar 3. Delete word and translation or 4. Go back to menu");
+        switch (MemoriseUtils.writeInt()) {
+            case 1 -> changeWord(index);
+            case 2 -> changeTranslation(index);
+            case 3 -> deleteWord(index);
+            case 4 -> 
+            default -> {
+                System.out.println("Sorry, but we do not have this option");
+                doChanges();
+            }
+        }
+
+    }
+
+    private Object deleteWord(int index) {
+        return null;
+    }
+
+    private Object changeTranslation(int index) {
+        return null;
     }
 
     private void changeWord(int wordPosition) throws IOException {
-        String tr = changedLibrary.get(wordPosition);
-        System.out.println("What do you want to change, word or translation?");
-        System.out.println("1. word\n2. translation");
-        if (MemoriseUtils.yesNo()) {
-           System.out.println("Please, wright the word");
-           String word = scan.nextLine();
-        }   
+        System.out.println("Please write new word");
+        String word = scan.nextLine();
+        System.out.println("Here are translations of word \"" + word + "\" that we found");
+        List<String> translations = new SearchWord().getTranslations(word);
+        MemoriseUtils.printTranslations(translations);
+        List<Integer> userChoose = MemoriseUtils.askUserChoose();
+        String newTranslation = concatinateWord(translations, userChoose);
+        System.out.println("Your word is \"" + word + "\", translations is \"" + 
+                newTranslation + "\"");
+        saveWordInMap(word + " : " + newTranslation, wordPosition);
+        doChanges();
+    }
+
+    private String concatinateWord(List<String> translations, List<Integer> userChoose) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < userChoose.size(); i++) {
+            if (i != userChoose.size() - 1) {
+                builder.append(translations.get(userChoose.get(i)));
+                builder.append(", ");
+            }
+        }
+        return builder.toString();
     }
 
     private String parsChangedMapTranslations(int index) { 
-        return "";
+           return ""; 
     }
 
+    private void saveWordInMap(String word, int index) {
+        changedLibrary.put(index, word);
+    }
 
 }

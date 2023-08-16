@@ -65,4 +65,15 @@ public class MemoriseUtils {
         }
         return answer == 1;
     }
+
+    public static void printTranslations(List<String> translations) {
+        for (int i = 0; i < translations.size(); i++) {
+           System.out.println((i + 1) + translations.get(i)); 
+        }
+
+    }
+
+    public static List<Integer> askUserChoose() {
+        return null;
+    }
 }
