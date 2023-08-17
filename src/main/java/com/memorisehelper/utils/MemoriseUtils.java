@@ -48,12 +48,16 @@ public class MemoriseUtils {
     public static int writeInt() {
         int number = 0;
         try {
-            number = scan.nextInt();
+            String temp = scan.nextLine();
+            if (temp.equals("exit")) {
+                return 0;
+            } else 
+                return Integer.parseInt(temp);
         } catch (Exception e) {
             System.out.println("This symbol is not number, please write number");
             writeInt();
         }
-        return number;
+        return 0;
     }
     
     public static boolean yesNo() {

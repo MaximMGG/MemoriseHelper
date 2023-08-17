@@ -9,25 +9,30 @@ import java.util.Scanner;
 import com.memorisehelper.filesystem.DiskWorker;
 import com.memorisehelper.libraries.ChangeLibrary;
 import com.memorisehelper.libraries.SearchWord;
+import com.memorisehelper.user.User;
 import com.memorisehelper.utils.MemoriseUtils;
 
 public class LibraryWorker {
 
+    public static final LibraryWorker LIBRARY_WORKER = new LibraryWorker();
     private Map<String, String> currentLibrary;
     private String libraryName;
-    private String userName;
+    private User user;
     private Scanner scan;
 
-    public LibraryWorker(String userName) {
+    private LibraryWorker() {
         currentLibrary = new HashMap<>();
         scan = new Scanner(System.in);
-        this.userName = userName;
+    }
+
+    public static LibraryWorker getWorker() {
+        return LIBRARY_WORKER;
     }
 
     public void createLibrary() throws IOException {
         System.out.println("Please write dawn name of your library");
         libraryName = scan.nextLine();
-        System.out.println("Awesome name!");
+        System.out.println("Awesome!");
         System.out.println("So, let's start to wrighting words");
         putWordAtLibrary();
     }
@@ -63,14 +68,14 @@ public class LibraryWorker {
         saveLibraryCrossroad();
     }
 
-    private void saveLibraryCrossroad() throws IOException {
+    public void saveLibraryCrossroad() throws IOException {
         System.out.println("Do you want to continius wright words?");
         if (yesNo()) {
             putWordAtLibrary();
         } else {
             switch (saveLibraryMenu()) {
                 case 1 -> {
-                    new DiskWorker(this.userName).saveLibraryOnDisk(currentLibrary, libraryName);
+                    new DiskWorker().saveLibraryOnDisk(currentLibrary, libraryName);
                     System.out.println("Library saved");
                     StartApp.getInstance().mainMenuUserChose();
                 }
@@ -80,6 +85,14 @@ public class LibraryWorker {
                 }
                 case 3 -> {
                     new ChangeLibrary(currentLibrary, libraryName);
+                }
+                case 4 -> {
+                    System.out.println("Library was delete");
+                    StartApp.getInstance().mainMenuUserChose();
+                }
+                default -> {
+                    System.out.println("We don't have this option, please try agane");
+                    saveLibraryCrossroad();
                 }
             }
         }
@@ -126,6 +139,7 @@ public class LibraryWorker {
         }
         return answer == 1;
     }
+
     private void showContentOfNotSaveLibrary() {
         int i = 1;
         for(Map.Entry<String, String> entry : currentLibrary.entrySet()) {

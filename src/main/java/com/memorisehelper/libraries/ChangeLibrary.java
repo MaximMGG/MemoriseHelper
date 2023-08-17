@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import com.memorisehelper.clientTouch.LibraryWorker;
 import com.memorisehelper.clientTouch.StartApp;
 import com.memorisehelper.filesystem.DiskWorker;
+import com.memorisehelper.user.User;
 import com.memorisehelper.utils.MemoriseUtils;
 
 public class ChangeLibrary {
@@ -15,6 +17,8 @@ public class ChangeLibrary {
     private Map<String, String> currentLibrary;
     private Map<Integer, String> changedLibrary;
     private String libraryName;
+    private User user = User.getUser();
+    private LibraryWorker worker = LibraryWorker.getWorker();
 
     public ChangeLibrary(Map<String, String> currentLibrary, String libraryName) throws IOException {
         this.currentLibrary = currentLibrary;
@@ -47,11 +51,13 @@ public class ChangeLibrary {
 
     public void doChanges() throws IOException {
         printChangedLibrary();
-        System.out.println("Please wrigth down number of word that you want to change");
+        System.out.println("Please wright down number of word that you want to change" + 
+                " or write \"exit\" to go back to menu");
         int index = MemoriseUtils.writeInt();
         System.out.println("What do you want to change? \n1. Etire word and translation" + 
-                " or 2. Translation ar 3. Delete word and translation or 4. Go back to menu");
+                " \n2. Translation \n3. Delete word and translation or \n4. Go back to menu");
         switch (MemoriseUtils.writeInt()) {
+            case 0 -> worker.saveLibraryCrossroad();
             case 1 -> changeWord(index);
             case 2 -> changeTranslation(index);
             case 3 -> deleteWord(index);
@@ -59,7 +65,7 @@ public class ChangeLibrary {
                 System.out.println("Do you want to save changed library?");
                 if (MemoriseUtils.yesNo()) {
                     unMuteCurrentLibrary();
-                    new DiskWorker(MemoriseUtils.USERNAME).saveLibraryOnDisk(currentLibrary, libraryName);
+                    new DiskWorker().saveLibraryOnDisk(currentLibrary, libraryName);
                     StartApp.getInstance().mainMenuUserChose(); 
                 } else {
                     StartApp.getInstance().mainMenuUserChose(); 
@@ -67,18 +73,17 @@ public class ChangeLibrary {
             }
             default -> {
                 System.out.println("Sorry, but we do not have this option");
-                doChanges();
             }
         }
-
+        doChanges();
     }
 
     private Object deleteWord(int index) {
         return null;
     }
 
-    private Object changeTranslation(int index) {
-        return null;
+    private void changeTranslation(int index) throws IOException {
+        changedLibrary.remove(index);
     }
 
     private void changeWord(int wordPosition) throws IOException {
@@ -92,7 +97,6 @@ public class ChangeLibrary {
         System.out.println("Your word is \"" + word + "\", translations is \"" + 
                 newTranslation + "\"");
         saveWordInMap(word + " : " + newTranslation, wordPosition);
-        doChanges();
     }
 
     private String concatinateWord(List<String> translations, List<Integer> userChoose) {
