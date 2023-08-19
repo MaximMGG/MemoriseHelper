@@ -1,6 +1,7 @@
 package com.memorisehelper.libraries;
 
 import java.io.IOException;
+import java.lang.WeakPairMap.Pair.Weak;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -19,6 +20,7 @@ public class ChangeLibrary {
     private String libraryName;
     private User user = User.getUser();
     private LibraryWorker worker = LibraryWorker.getWorker();
+    private SearchWord searchWord = SearchWord.getInstance();
 
     public ChangeLibrary(Map<String, String> currentLibrary, String libraryName) throws IOException {
         this.currentLibrary = currentLibrary;
@@ -78,19 +80,28 @@ public class ChangeLibrary {
         doChanges();
     }
 
-    private Object deleteWord(int index) {
-        return null;
+    private void deleteWord(int index) {
+        changedLibrary.remove(index);
     }
 
     private void changeTranslation(int index) throws IOException {
-        changedLibrary.remove(index);
+        String word = changedLibrary.get(index).split(" : ")[0];
+        System.out.println("Here is translations of word \"" + 
+                word + "\"");
+        List<String> translations = searchWord.getTranslations(word);
+        List<Integer> userChoose = MemoriseUtils.askUserChoose();
+        String newTranslation = concatinateWord(translations, userChoose);
+        System.out.println("Your word is \"" + word + "\", translations is \"" + 
+                newTranslation + "\"");
+        saveWordInMap(word + " : " + newTranslation, index);
+
     }
 
     private void changeWord(int wordPosition) throws IOException {
         System.out.println("Please write new word");
         String word = scan.nextLine();
         System.out.println("Here are translations of word \"" + word + "\" that we found");
-        List<String> translations = new SearchWord().getTranslations(word);
+        List<String> translations = searchWord.getTranslations(word);
         MemoriseUtils.printTranslations(translations);
         List<Integer> userChoose = MemoriseUtils.askUserChoose();
         String newTranslation = concatinateWord(translations, userChoose);

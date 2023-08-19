@@ -8,9 +8,17 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+
 public class SearchWord {
 
     private static final String URL_TRANSLATOR = "https://context.reverso.net/перевод/английский-русский/";
+    private static final SearchWord INSTANCE = new SearchWord();
+
+    private SearchWord() {}
+
+    public static SearchWord getInstance(){
+        return INSTANCE;
+    }
 
     public List<String> getTranslations(String word) throws IOException {
         List<String> list = new ArrayList<>();

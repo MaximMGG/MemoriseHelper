@@ -19,6 +19,7 @@ public class LibraryWorker {
     private String libraryName;
     private User user;
     private Scanner scan;
+    private SearchWord searchWord = SearchWord.getInstance();
 
     private LibraryWorker() {
         currentLibrary = new HashMap<>();
@@ -107,7 +108,7 @@ public class LibraryWorker {
     }
 
     private String getTranslations(String word) throws IOException {
-        List<String> translations = new SearchWord().getTranslations(word);
+        List<String> translations = searchWord.getTranslations(word);
         for (int i = 0; i < translations.size(); i++) {
             System.out.println((i + 1) + ". " + translations.get(i));
         }
