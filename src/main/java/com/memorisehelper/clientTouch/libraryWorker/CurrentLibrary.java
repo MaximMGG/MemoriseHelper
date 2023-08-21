@@ -6,14 +6,13 @@ import java.util.Map;
 
 public class CurrentLibrary {
     private Map<String, String> currentLibrary;
-    private String libraryName;
+    private static String libraryName;
 
-    public CurrentLibrary(String libraryName, Map<String, String> currentLibrary) {
-        this.currentLibrary = currentLibrary;
-        this.libraryName = libraryName;
+    public CurrentLibrary() {
     }
 
-    public Map<String, String> parseLibrary(List<String> listLibrary) {
+    public static Map<String, String> parseLibrary(List<String> listLibrary, String libraryName) {
+        this.libraryName = libraryName;
         Map<String, String> library = new HashMap<>();
         for(String wordAndTraslations : listLibrary) {
             String[] temp = wordAndTraslations.split(" : ");
