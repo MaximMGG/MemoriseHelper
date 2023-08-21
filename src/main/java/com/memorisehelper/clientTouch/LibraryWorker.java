@@ -19,7 +19,8 @@ public class LibraryWorker {
     private String libraryName;
     private User user;
     private Scanner scan;
-    private SearchWord searchWord = SearchWord.getInstance();
+    private SearchWord SEARCHWORD = SearchWord.getInstance();
+    private final DiskWorker DISKWORKER = DiskWorker.getInstance();
 
     private LibraryWorker() {
         currentLibrary = new HashMap<>();
@@ -157,7 +158,13 @@ public class LibraryWorker {
         return null;
     }
 
-    public void changeLibrary() {
+    public void changeLibrary() throws IOException {
+        List<String> userLibraries = DISKWORKER.getUserLibraries();
+        int count = 1;
+        System.out.println("Which library do you want to change?");
+        for (String library : userLibraries) {
+            System.out.println(count + ". " + library);
+        }
 
     }
 

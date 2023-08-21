@@ -18,30 +18,28 @@ public class DiskWorker {
     private final String PATH_TO_USER_COFIG = "resources/userInfo.txt";
     private final String PATH_TO_LIBRARY_DIR = "resources/libraries";
     private User user;
+    private static final DiskWorker INSTACE = new DiskWorker();
 
-    public DiskWorker() throws IOException {
-        user = User.getUser();
-        if (!userConfig()) {
-            createResourcesDir();
-            createUserConfig();
-            createUserLibraryDir();
-            wrightUserInfo();
-        } else {
-            if (!userExist()) {
+    public DiskWorker() {
+        try {
+            if (!userConfig()) {
+                createResourcesDir();
+                createUserConfig();
                 createUserLibraryDir();
                 wrightUserInfo();
+            } else {
+                if (!userExist()) {
+                    createUserLibraryDir();
+                    wrightUserInfo();
+                }
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
-    public static void main(String[] args) throws IOException {
-        DiskWorker dw = new DiskWorker();
-        // dw.createUserLibraryDir();
-        // dw.correntUserConfig();
-        // dw.wrightUserInfo();
-        // dw.addLibraryInUserConfig("Cats");
-        // dw.createUserConfig();
-        // System.out.println(dw.userExist());
-       System.out.println(dw.getUserLibraries());
+
+    public static DiskWorker getInstance() {
+        return INSTACE;
     }
 
     private boolean userExist() throws IOException {
