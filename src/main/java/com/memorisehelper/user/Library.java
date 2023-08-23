@@ -33,6 +33,14 @@ public class Library {
         return INSTANCE;
     }
 
+    public void put(String word, String translarion) {
+        currentLibrary.put(word, translarion);
+    }
+
+    public void remove(String key) {
+        currentLibrary.remove(key);
+    }
+
     public Map<String, String> parseLibrary(List<String> listLibrary) {
         Map<String, String> lib = new HashMap<>();
         for(String s : listLibrary) {

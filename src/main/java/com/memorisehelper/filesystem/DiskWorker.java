@@ -71,7 +71,7 @@ public class DiskWorker {
     }
 
     public boolean saveLibraryOnDisk() throws IOException {
-        addLibraryInUserConfig(library.getLibraryName());
+        addLibraryInUserConfig();
         File libraryFile = null;
         libraryFile = new File("resources/libraries/" + user.getUserName() + "Library/" + library.getLibraryName() + ".txt");
         libraryFile.createNewFile();
