@@ -37,11 +37,4 @@ public class SearchWord {
         return Jsoup.connect(url).get();
 
     }
-
-    public void printTranslations(List<String> library) {
-        int count = 1;
-        for (String word : library) {
-            System.out.println(count + ". " + word);
-        }
-    }
 }

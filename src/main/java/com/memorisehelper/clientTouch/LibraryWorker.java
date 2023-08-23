@@ -7,11 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import javax.print.DocFlavor.INPUT_STREAM;
 
 import com.memorisehelper.clientTouch.libraryWorker.CreateLibraryWorker;
-import com.memorisehelper.filesystem.DiskWorker;
-import com.memorisehelper.libraries.ChangeLibrary;
 import com.memorisehelper.libraries.SearchWord;
 import com.memorisehelper.user.User;
 import com.memorisehelper.utils.MemoriseUtils;
@@ -57,9 +54,11 @@ public class LibraryWorker {
                     translations = SEARCHWORD.getTranslations(word);
                 }
             }
-            SEARCHWORD.printTranslations(translations);
+            MemoriseUtils.printTranslations(translations);
             System.out.println("You can choose one or more translations");
             System.out.println("For example 1 4 5");
+            String userChoose = scan.nextLine();
+            String concatTranslations = MemoriseUtils.parsingUserChoose(userChoose, translations);
         }
     }
 

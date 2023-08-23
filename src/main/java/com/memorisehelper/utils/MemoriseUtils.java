@@ -33,16 +33,34 @@ public class MemoriseUtils {
         return el.text();
     }
 
-    public static List<Integer> parsingUserChoose(String userChoose) {
-        List<Integer> result = new ArrayList<>();
-        String[] buffer = userChoose.split("");
-        for (int i = 0; i < buffer.length; i++) {
-            try {
-                result.add(Integer.parseInt(buffer[i]));
-            } catch (Exception e) {
+    public static String parsingUserChoose(String userChoose, List<String> translations) {
+        String[] bufer = userChoose.split(" ");
+        List<Integer> temp = new ArrayList<>();
+        try {
+            for (int i = 0; i < bufer.length; i++) {
+                temp.add(Integer.parseInt(bufer[i]));
             }
+        } catch (Exception e) {
+            System.out.println("Sorry, but you wrote a not number, try agane");
+            String u = scan.nextLine();
+            parsingUserChoose(u, translations);
         }
-        return result;
+
+        StringBuilder builder = new StringBuilder();
+        try {
+            for (int i = 0; i < temp.size(); i++) {
+                builder.append(translations.get(temp.get(i) - 1));
+                if (i != temp.size() - 1) {
+                    builder.append(", ");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Sorry, but you wrote incorrect number, we don't have this translation");
+            System.out.println("Please, try agane");
+            String u = scan.nextLine();
+            parsingUserChoose(u, translations);
+        }
+        return builder.toString();
     }
 
     public static int writeInt() {
@@ -74,7 +92,6 @@ public class MemoriseUtils {
         for (int i = 0; i < translations.size(); i++) {
            System.out.println((i + 1) + translations.get(i)); 
         }
-
     }
 
     public static List<Integer> askUserChoose() {
