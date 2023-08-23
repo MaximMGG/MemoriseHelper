@@ -21,6 +21,7 @@ public class LibraryWorker {
     private static final LibraryWorker INSTANCE = new LibraryWorker();
     private CreateLibraryWorker CREATELIBRARYWORKER = CreateLibraryWorker.getInstance();
     private SearchWord SEARCHWORD = SearchWord.getInstance();
+    private StartApp START_APP = StartApp.getInstance();
 
     private LibraryWorker() {
         scan = new Scanner(System.in);
@@ -31,6 +32,7 @@ public class LibraryWorker {
     }
 
     public void createLibrary() throws IOException {
+
         System.out.println("Please write dawn name of your library");
         String libraryName = scan.nextLine();
         System.out.println("Awesome!");
@@ -50,6 +52,7 @@ public class LibraryWorker {
                 System.out.println("Do you meen " + googledWord + "?");
                 if (yesNo()) {
                     translations = SEARCHWORD.getTranslations(googledWord);
+                    word = googledWord;
                 } else {
                     translations = SEARCHWORD.getTranslations(word);
                 }
@@ -59,6 +62,33 @@ public class LibraryWorker {
             System.out.println("For example 1 4 5");
             String userChoose = scan.nextLine();
             String concatTranslations = MemoriseUtils.parsingUserChoose(userChoose, translations);
+            System.out.println("Your word is: " + word + "translations is: " + concatTranslations);
+            System.out.println("Save word?");
+            if (yesNo()) {
+                CREATELIBRARYWORKER.putWordInLibrary(word, concatTranslations);
+            } else {
+                System.out.println("Word wasn't save'");
+            }
+            System.out.println("Do you want to continues wright words?");
+            if (yesNo()) {
+                continue;
+            } else {
+                ready = false;
+            }
+        }
+        System.out.println("Content of library for now");
+        CREATELIBRARYWORKER.printLibrary();
+        System.out.println("Do you wont to save this Library?");
+        System.out.println("1. Save");
+        System.out.println("2. Chane some word");
+        System.out.println("3. Exit without saving");
+        switch (MemoriseUtils.writeInt()) {
+            case 1 -> {
+                CREATELIBRARYWORKER.saveLibrary();
+                START_APP.mainMenuUserChose();
+            }
+            case 2 -> changeLibrary();
+            case 3 -> START_APP.mainMenuUserChose();
         }
     }
 
