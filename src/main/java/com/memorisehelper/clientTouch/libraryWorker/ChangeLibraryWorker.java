@@ -21,10 +21,7 @@ public class ChangeLibraryWorker {
         this.library = library;
         this.libraryName = libraryName;
     }
+    public void changeWord(int position) {
 
-    public void changeLibrary() {
-        
     }
-
-
 }

@@ -77,61 +77,25 @@ public class LibraryWorker {
             }
         }
         System.out.println("Content of library for now");
+
         CREATELIBRARYWORKER.printLibrary();
-        System.out.println("Do you wont to save this Library?");
+
+        System.out.println("Do you want to save this library?");
         System.out.println("1. Save");
-        System.out.println("2. Chane some word");
+        System.out.println("2. Change some word");
         System.out.println("3. Exit without saving");
         switch (MemoriseUtils.writeInt()) {
             case 1 -> {
                 CREATELIBRARYWORKER.saveLibrary();
                 START_APP.mainMenuUserChose();
             }
-            case 2 -> changeLibrary();
+            case 2 -> {
+                user.setCurrentLibrary(CREATELIBRARYWORKER.getLibrary());
+                changeLibrary();
+            }
             case 3 -> START_APP.mainMenuUserChose();
         }
     }
-
-    private void putWordAtLibrary() throws IOException {
-        System.out.println("Please wright down a word");
-        String word = scan.nextLine();
-        String wordTranslation = "";
-        if (!MemoriseUtils.checkWord(word)) {
-            System.out.println("You wrote some incorrect symbols or number, please, try agane");
-            putWordAtLibrary();
-        }
-        String correctWord = MemoriseUtils.askInGoogleCorrectWord(word);
-        if (!correctWord.equals(word) && correctWord.length() > 1) {
-            System.out.println("Mabe your mean " + correctWord + "?");
-            if (yesNo()) {
-                System.out.println("Ok, here are translations of the word: " + correctWord + " that we found");
-                CREATELIBRARYWORKER.putWordInLibrary(correctWord, wordTranslation);
-                System.out.println("word " + correctWord + " and translation " + wordTranslation + " saved in library");
-            } else {
-                System.out.println("Ok, here are translations of the word: " + word + " that we found");
-                CREATELIBRARYWORKER.putWordInLibrary(word, wordTranslation);
-                System.out.println("word " + word + " and translation " + wordTranslation + " saved in library");
-            }
-        } else {
-                System.out.println("Here are translations of the word: " + word + " that we found");
-                CREATELIBRARYWORKER.putWordInLibrary(word, wordTranslation);
-                System.out.println("word " + word + " and translation " + wordTranslation + " saved in library");
-        }
-        saveLibraryCrossroad();
-    }
-
-    public void saveLibraryCrossroad() throws IOException {
-    }
-
-    private int saveLibraryMenu() {
-        System.out.println("1. Save library");
-        System.out.println("2. Show content of library");
-        System.out.println("3. Change some words");
-        System.out.println("4. Delete library");
-        return MemoriseUtils.writeInt();
-    }
-
-
 
     private boolean yesNo() {
         System.out.println("1. Yes\n2. No");
@@ -143,19 +107,11 @@ public class LibraryWorker {
         return answer == 1;
     }
 
-    public void showAllLibraries() {
-        
+    public void changeLibrary() throws IOException {
+                
     }
 
     public Object startLearning() {
         return null;
     }
-
-    public void changeLibrary() throws IOException {
-    }
-
-    public static LibraryWorker getWorker() {
-        return null;
-    }
-
 }

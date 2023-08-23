@@ -51,7 +51,7 @@ public class StartApp {
     private void crossroad(int userChoose) throws IOException {
         switch(userChoose) {
             case 1 -> libraryWorker.createLibrary();
-            case 2 -> libraryWorker.showAllLibraries();
+            case 2 -> user.getUserLibraries();
 			case 3 -> libraryWorker.changeLibrary();
 			case 4 -> libraryWorker.startLearning();
             case 5 -> {
