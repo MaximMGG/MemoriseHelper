@@ -8,8 +8,8 @@ public class ChangeLibraryWorker {
 
     private static final ChangeLibraryWorker INSTANCE = new ChangeLibraryWorker();
     private Map<String, String> library;
+    private String libraryName;
     private static final DiskWorker DISKWORKER = DiskWorker.getInstance();
-    private static final CurrentLibrary CURRENT_LIBRARY = CurrentLibrary.getInstance();
 
     private ChangeLibraryWorker() {}
 
@@ -17,8 +17,14 @@ public class ChangeLibraryWorker {
         return INSTANCE;
     }
 
+    public void setLibrary(Map<String, String> library, String libraryName) {
+        this.library = library;
+        this.libraryName = libraryName;
+    }
+
     public void changeLibrary() {
         
     }
+
 
 }

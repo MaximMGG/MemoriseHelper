@@ -12,7 +12,6 @@ public class CurrentLibrary {
     }
 
     public static Map<String, String> parseLibrary(List<String> listLibrary, String libraryName) {
-        this.libraryName = libraryName;
         Map<String, String> library = new HashMap<>();
         for(String wordAndTraslations : listLibrary) {
             String[] temp = wordAndTraslations.split(" : ");

@@ -12,7 +12,8 @@ public class StartApp {
     private Scanner scan = new Scanner(System.in);
     private final static StartApp INSTANCE = new StartApp();
     private User user;
-    private LibraryWorker worker = LibraryWorker.getWorker();
+    private LibraryWorker libraryWorker = LibraryWorker.GetInstance();
+
 
     private StartApp() {}
 
@@ -49,10 +50,10 @@ public class StartApp {
 
     private void crossroad(int userChoose) throws IOException {
         switch(userChoose) {
-            case 1 -> worker.createLibrary();
-            case 2 -> worker.showAllLibraries();
-			case 3 -> worker.changeLibrary();
-			case 4 -> worker.startLearning();
+            case 1 -> libraryWorker.createLibrary();
+            case 2 -> libraryWorker.showAllLibraries();
+			case 3 -> libraryWorker.changeLibrary();
+			case 4 -> libraryWorker.startLearning();
             case 5 -> {
                 System.out.println("Goodbye diar " + user.getUserName() + "good luck!");
             }
