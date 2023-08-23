@@ -1,5 +1,7 @@
 package com.memorisehelper.user;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Library {
@@ -31,4 +33,19 @@ public class Library {
         return INSTANCE;
     }
 
+    public Map<String, String> parseLibrary(List<String> listLibrary) {
+        Map<String, String> lib = new HashMap<>();
+        for(String s : listLibrary) {
+            String[] buffer = s.split(" : ");
+            currentLibrary.put(buffer[0], buffer[1]);
+        }
+        return lib;
+    }
+
+    public void printLibrary() {
+        int count = 1;
+        for (Map.Entry<String, String> entry : currentLibrary.entrySet()) {
+            System.out.println(count + ". " + entry.getKey() + " : " + entry.getValue());
+        }
+    }
 }

@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.memorisehelper.user.Library;
 import com.memorisehelper.user.User;
 
 public class DiskWorker {
@@ -19,6 +20,7 @@ public class DiskWorker {
     private final String PATH_TO_LIBRARY_DIR = "resources/libraries";
     private User user;
     private static final DiskWorker INSTACE = new DiskWorker();
+    private Library library = Library.getInstance();
 
     public DiskWorker() {
         try {
@@ -68,19 +70,19 @@ public class DiskWorker {
         return lib.stream().skip(1).toList();
     }
 
-    public boolean saveLibraryOnDisk(Map<String, String> library, String libraryName) throws IOException {
-        addLibraryInUserConfig(libraryName);
+    public boolean saveLibraryOnDisk() throws IOException {
+        addLibraryInUserConfig(library.getLibraryName());
         File libraryFile = null;
-        libraryFile = new File("resources/libraries/" + user.getUserName() + "Library/" + libraryName + ".txt");
+        libraryFile = new File("resources/libraries/" + user.getUserName() + "Library/" + library.getLibraryName() + ".txt");
         libraryFile.createNewFile();
-        for (Map.Entry<String, String> entry : library.entrySet()) {
-            Files.writeString(Path.of(PATH_TO_LIBRARY_DIR + "/"+ user.getUserName() + "Library/" + libraryName + ".txt"),
+        for (Map.Entry<String, String> entry : library.getCurrentLibrary().entrySet()) {
+            Files.writeString(Path.of(PATH_TO_LIBRARY_DIR + "/"+ user.getUserName() + "Library/" + library.getLibraryName() + ".txt"),
                     (entry.getKey() + " : " + entry.getValue() + "\n"), StandardOpenOption.APPEND);
         }
         return true;
     }
 
-    private void addLibraryInUserConfig(String libraryName) throws IOException {
+    private void addLibraryInUserConfig() throws IOException {
         List<String> userConfig = Files.readAllLines(Path.of(PATH_TO_USER_COFIG));
         for (int i = 0; i < userConfig.size(); i++) {
             String[] parsString = userConfig.get(i).split(" ");
@@ -88,7 +90,7 @@ public class DiskWorker {
                 if (parsString[1].equals(user.getUserName())) {
                     String a = userConfig.get(i + 1);
                     userConfig.remove(i + 1);
-                    userConfig.add(a + " " + libraryName);
+                    userConfig.add(a + " " + library.getLibraryName());
                 }
                 Files.writeString(Path.of(PATH_TO_USER_COFIG), "", StandardOpenOption.TRUNCATE_EXISTING);
                 for (String s : userConfig) {

@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import com.memorisehelper.clientTouch.libraryWorker.CreateLibraryWorker;
 import com.memorisehelper.libraries.SearchWord;
+import com.memorisehelper.user.Library;
 import com.memorisehelper.user.User;
 import com.memorisehelper.utils.MemoriseUtils;
 
@@ -22,6 +23,7 @@ public class LibraryWorker {
     private CreateLibraryWorker CREATELIBRARYWORKER = CreateLibraryWorker.getInstance();
     private SearchWord SEARCHWORD = SearchWord.getInstance();
     private StartApp START_APP = StartApp.getInstance();
+    private Library library = Library.getInstance();
 
     private LibraryWorker() {
         scan = new Scanner(System.in);
@@ -36,8 +38,8 @@ public class LibraryWorker {
         System.out.println("Please write dawn name of your library");
         String libraryName = scan.nextLine();
         System.out.println("Awesome!");
-        CREATELIBRARYWORKER.setLibraryName(libraryName);
-        CREATELIBRARYWORKER.setLibrary(new HashMap<String, String>());
+        library.setLibraryName(libraryName);
+        library.setCurrentLibrary(new HashMap<String, String>());
         System.out.println("So, let's start to wrighting words");
 
         boolean ready = true;
@@ -90,7 +92,6 @@ public class LibraryWorker {
                 START_APP.mainMenuUserChose();
             }
             case 2 -> {
-                user.setCurrentLibrary(CREATELIBRARYWORKER.getLibrary());
                 changeLibrary();
             }
             case 3 -> START_APP.mainMenuUserChose();

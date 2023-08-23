@@ -1,14 +1,12 @@
 package com.memorisehelper.clientTouch.libraryWorker;
 
-import java.util.Map;
-
 import com.memorisehelper.filesystem.DiskWorker;
+import com.memorisehelper.user.Library;
 
 public class ChangeLibraryWorker {
 
     private static final ChangeLibraryWorker INSTANCE = new ChangeLibraryWorker();
-    private Map<String, String> library;
-    private String libraryName;
+    private Library library = Library.getInstance();
     private static final DiskWorker DISKWORKER = DiskWorker.getInstance();
 
     private ChangeLibraryWorker() {}
@@ -17,10 +15,6 @@ public class ChangeLibraryWorker {
         return INSTANCE;
     }
 
-    public void setLibrary(Map<String, String> library, String libraryName) {
-        this.library = library;
-        this.libraryName = libraryName;
-    }
     public void changeWord(int position) {
 
     }
