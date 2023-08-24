@@ -3,13 +3,17 @@ package com.memorisehelper.utils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+
+import com.memorisehelper.user.Library;
 
 public class MemoriseUtils {
 
@@ -96,5 +100,24 @@ public class MemoriseUtils {
 
     public static List<Integer> askUserChoose() {
         return null;
+    }
+
+    public static void printLibrary(Library library) {
+        int count = 1;
+        for(Map.Entry<String, String> entry : library.getCurrentLibrary().entrySet()) {
+            System.out.println(count + ". ");
+        }
+    }
+
+    public static String getUserChangeLibrary(List<String> userLibraries) {
+        String userLibrary = "";
+        int index = writeInt();
+        try {
+            userLibrary = userLibraries.get(index);
+        } catch (Exception e) {
+            System.out.println("You don't have library with this number, please write agane");
+            getUserChangeLibrary(userLibraries);
+        }
+        return userLibrary;
     }
 }

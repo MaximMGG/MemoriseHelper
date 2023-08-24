@@ -41,4 +41,10 @@ public class User {
     public void setUserLibraries(List<String> userLibraries) {
         this.userLibraries = userLibraries;
     }
+    public void printUserLibraries() {
+        int count = 1;
+        for(String s : userLibraries) {
+            System.out.println(count + ". " + s);
+        }
+    }
 }

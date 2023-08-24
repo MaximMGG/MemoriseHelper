@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 
 import com.memorisehelper.clientTouch.libraryWorker.CreateLibraryWorker;
+import com.memorisehelper.filesystem.DiskWorker;
 import com.memorisehelper.libraries.SearchWord;
 import com.memorisehelper.user.Library;
 import com.memorisehelper.user.User;
@@ -24,6 +25,7 @@ public class LibraryWorker {
     private SearchWord SEARCHWORD = SearchWord.getInstance();
     private StartApp START_APP = StartApp.getInstance();
     private Library library = Library.getInstance();
+    private DiskWorker diskWorker = DiskWorker.getInstance();
 
     private LibraryWorker() {
         scan = new Scanner(System.in);
@@ -80,7 +82,7 @@ public class LibraryWorker {
         }
         System.out.println("Content of library for now");
 
-        CREATELIBRARYWORKER.printLibrary();
+        MemoriseUtils.printLibrary(library);
 
         System.out.println("Do you want to save this library?");
         System.out.println("1. Save");
@@ -109,7 +111,12 @@ public class LibraryWorker {
     }
 
     public void changeLibrary() throws IOException {
-                
+        user.printUserLibraries();
+        System.out.println("Wich library do you want to change");
+        int a = MemoriseUtils.writeInt();
+        List<String> libraries = diskWorker.getUserLibraries();
+        diskWorker.getLibraryContent(libraryName);
+
     }
 
     public Object startLearning() {
