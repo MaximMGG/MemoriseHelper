@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +18,7 @@ public class MemoriseUtils {
 
     private static final String GOOGLE_ASKING = "https://www.google.com/search?q=";
     private static final Scanner scan = new Scanner(System.in);
+    private static Library library = Library.getInstance();
 
     public static boolean checkWord(String word) {
         Pattern pattern = Pattern.compile("^[A-z]*$");
@@ -119,5 +119,21 @@ public class MemoriseUtils {
             getUserChangeLibrary(userLibraries);
         }
         return userLibrary;
+    }
+
+    public static String changedWord(int index) {
+        try {
+            int i = 1;
+            for(Map.Entry<String, String> entry : library.getCurrentLibrary().entrySet()) {
+                if (i == index) {
+                    return entry.getKey() + " : " + entry.getValue();
+                } else
+                    i++;
+            }
+        } catch (Exception e) {
+            System.out.println("You don't have word with this number, please write number agane");
+            changedWord(writeInt());
+        }
+        return null;
     }
 }

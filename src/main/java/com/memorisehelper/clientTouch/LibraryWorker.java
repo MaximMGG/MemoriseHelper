@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-
+import com.memorisehelper.clientTouch.libraryWorker.ChangeLibraryWorker;
 import com.memorisehelper.clientTouch.libraryWorker.CreateLibraryWorker;
 import com.memorisehelper.filesystem.DiskWorker;
 import com.memorisehelper.libraries.SearchWord;
@@ -22,6 +22,7 @@ public class LibraryWorker {
     private Scanner scan;
     private static final LibraryWorker INSTANCE = new LibraryWorker();
     private CreateLibraryWorker CREATELIBRARYWORKER = CreateLibraryWorker.getInstance();
+    private ChangeLibraryWorker changeLibraryWorker = ChangeLibraryWorker.getInstance();
     private SearchWord SEARCHWORD = SearchWord.getInstance();
     private StartApp START_APP = StartApp.getInstance();
     private Library library = Library.getInstance();
@@ -113,9 +114,18 @@ public class LibraryWorker {
     public void changeLibrary() throws IOException {
         user.printUserLibraries();
         System.out.println("Wich library do you want to change");
-        int a = MemoriseUtils.writeInt();
-        List<String> libraries = diskWorker.getUserLibraries();
-        diskWorker.getLibraryContent(libraryName);
+        library.setCurrentLibrary(
+                library.parseLibrary(
+                    diskWorker.getLibraryContent(
+                        MemoriseUtils.getUserChangeLibrary(
+                            diskWorker.getUserLibraries()))));
+        System.out.println("Current library is");
+        library.printLibrary();
+        System.out.println("Which word do you want to change?");
+        System.out.println("Wright 0 if you want to add some new word");
+        if (MemoriseUtils.writeInt() != 0) {
+
+        }
 
     }
 
