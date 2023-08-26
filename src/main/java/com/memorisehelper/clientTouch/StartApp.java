@@ -12,7 +12,7 @@ public class StartApp {
     private Scanner scan = new Scanner(System.in);
     private final static StartApp INSTANCE = new StartApp();
     private User user;
-    private LibraryWorker libraryWorker = LibraryWorker.GetInstance();
+    private LibraryWorker libraryWorker = LibraryWorker.getInstance();
 
 
     private StartApp() {}
@@ -31,7 +31,7 @@ public class StartApp {
         System.out.println(Messages.greetings);
         String userName = scan.nextLine();
         user = User.getUser();
-        user.setName(userName);
+        user.setUserName(userName);
         System.out.println("Hello diar " + userName + " good time to learn some new word!");
         mainMenuUserChose();
     }

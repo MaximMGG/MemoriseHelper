@@ -18,8 +18,9 @@ public class ChangeLibrary {
     private Map<Integer, String> changedLibrary;
     private String libraryName;
     private User user = User.getUser();
-    private LibraryWorker worker = LibraryWorker.getWorker();
+    private LibraryWorker worker = LibraryWorker.getInstance();
     private SearchWord searchWord = SearchWord.getInstance();
+    private DiskWorker diskWorker = DiskWorker.getInstance();
 
     public ChangeLibrary(Map<String, String> currentLibrary, String libraryName) throws IOException {
         this.currentLibrary = currentLibrary;
@@ -37,7 +38,7 @@ public class ChangeLibrary {
     }
 
     private void unMuteCurrentLibrary() {
-       currentLibrary.clear(); 
+       currentLibrary.clear();
        for (Map.Entry<Integer, String> entry : changedLibrary.entrySet()) {
            String[] temp = entry.getValue().split(" : ");
            currentLibrary.put(temp[0], temp[1]);
@@ -58,7 +59,7 @@ public class ChangeLibrary {
         System.out.println("What do you want to change? \n1. Etire word and translation" + 
                 " \n2. Translation \n3. Delete word and translation or \n4. Go back to menu");
         switch (MemoriseUtils.writeInt()) {
-            case 0 -> worker.saveLibraryCrossroad();
+            case 0 -> {} // TODO add case 0 logic
             case 1 -> changeWord(index);
             case 2 -> changeTranslation(index);
             case 3 -> deleteWord(index);
@@ -66,10 +67,10 @@ public class ChangeLibrary {
                 System.out.println("Do you want to save changed library?");
                 if (MemoriseUtils.yesNo()) {
                     unMuteCurrentLibrary();
-                    new DiskWorker().saveLibraryOnDisk(currentLibrary, libraryName);
-                    StartApp.getInstance().mainMenuUserChose(); 
+                    diskWorker.saveLibraryOnDisk();
+                    StartApp.getInstance().mainMenuUserChose();
                 } else {
-                    StartApp.getInstance().mainMenuUserChose(); 
+                    StartApp.getInstance().mainMenuUserChose();
                 }
             }
             default -> {

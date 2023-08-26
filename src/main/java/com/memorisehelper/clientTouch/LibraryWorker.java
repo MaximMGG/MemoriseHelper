@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 import com.memorisehelper.clientTouch.libraryWorker.ChangeLibraryWorker;
@@ -21,9 +20,9 @@ public class LibraryWorker {
     private User user;
     private Scanner scan;
     private static final LibraryWorker INSTANCE = new LibraryWorker();
-    private CreateLibraryWorker CREATELIBRARYWORKER = CreateLibraryWorker.getInstance();
+    private CreateLibraryWorker createLibraryWorker = CreateLibraryWorker.getInstance();
     private ChangeLibraryWorker changeLibraryWorker = ChangeLibraryWorker.getInstance();
-    private SearchWord SEARCHWORD = SearchWord.getInstance();
+    private SearchWord searchWord = SearchWord.getInstance();
     private StartApp START_APP = StartApp.getInstance();
     private Library library = Library.getInstance();
     private DiskWorker diskWorker = DiskWorker.getInstance();
@@ -32,7 +31,7 @@ public class LibraryWorker {
         scan = new Scanner(System.in);
     }
 
-    public static LibraryWorker GetInstance() {
+    public static LibraryWorker getInstance() {
         return INSTANCE;
     }
 
@@ -52,14 +51,14 @@ public class LibraryWorker {
             String googledWord = MemoriseUtils.askInGoogleCorrectWord(word);
             List<String> translations = new ArrayList<>();
             if (word.equals(googledWord)) {
-                translations = SEARCHWORD.getTranslations(word);
+                translations = searchWord.getTranslations(word);
             } else {
                 System.out.println("Do you meen " + googledWord + "?");
                 if (yesNo()) {
-                    translations = SEARCHWORD.getTranslations(googledWord);
+                    translations = searchWord.getTranslations(googledWord);
                     word = googledWord;
                 } else {
-                    translations = SEARCHWORD.getTranslations(word);
+                    translations = searchWord.getTranslations(word);
                 }
             }
             MemoriseUtils.printTranslations(translations);
@@ -70,7 +69,7 @@ public class LibraryWorker {
             System.out.println("Your word is: " + word + "translations is: " + concatTranslations);
             System.out.println("Save word?");
             if (yesNo()) {
-                CREATELIBRARYWORKER.putWordInLibrary(word, concatTranslations);
+                createLibraryWorker.putWordInLibrary(word, concatTranslations);
             } else {
                 System.out.println("Word wasn't save'");
             }
@@ -91,7 +90,7 @@ public class LibraryWorker {
         System.out.println("3. Exit without saving");
         switch (MemoriseUtils.writeInt()) {
             case 1 -> {
-                CREATELIBRARYWORKER.saveLibrary();
+                createLibraryWorker.saveLibrary();
                 START_APP.mainMenuUserChose();
             }
             case 2 -> {
@@ -124,7 +123,8 @@ public class LibraryWorker {
         System.out.println("Which word do you want to change?");
         System.out.println("Wright 0 if you want to add some new word");
         if (MemoriseUtils.writeInt() != 0) {
-
+           String word = MemoriseUtils.changedWord(MemoriseUtils.writeInt());
+           searchWord.getTranslations(word);
         }
 
     }
