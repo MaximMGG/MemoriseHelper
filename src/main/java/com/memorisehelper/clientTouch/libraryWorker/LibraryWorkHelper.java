@@ -16,7 +16,7 @@ public class LibraryWorkHelper {
     private static List<String> translations;
 
     public static void main(String[] args) throws IOException {
-        takeWordAndGetTranslations();
+        System.out.println(takeWordAndGetTranslations());
     }
 
     public static String takeWordAndGetTranslations() throws IOException {
@@ -38,6 +38,8 @@ public class LibraryWorkHelper {
                 } else {
                     translations = searchWord.getTranslations(word);
                 }
+            } else {
+                    translations = searchWord.getTranslations(word);
             }
         } else {
             System.out.println("You wrote some incorrent symbols");
@@ -49,6 +51,7 @@ public class LibraryWorkHelper {
     private static String getConcatinateTranslations() {
 
         System.out.printf("Here is translations of word : %s\n", word);
+        MemoriseUtils.printTranslations(translations);
         System.out.println("You can chose one or more (1, 2, 5)");
         System.out.println("Or wright you own tranlstion (1, 2, Привет, Хай)");
         String[] userChoose = scan.nextLine().split(", ");
@@ -69,7 +72,7 @@ public class LibraryWorkHelper {
         StringBuilder trans = new StringBuilder();
         for (int i = 0; i < concat.size(); i++) {
             trans.append(concat.get(i));
-            if (i < concat.size()) {
+            if (i < concat.size() - 1) {
                 trans.append(", ");
             }
         }
