@@ -18,13 +18,13 @@ public class DiskWorker {
 
     private final String PATH_TO_USER_COFIG = "resources/userInfo.txt";
     private final String PATH_TO_LIBRARY_DIR = "resources/libraries";
-    private User user;
+    private User user = User.getUser();
     private static final DiskWorker INSTACE = new DiskWorker();
     private Library library = Library.getInstance();
 
     public DiskWorker() {}
 
-    private void firstInitialize() {
+    public void firstInitialize() {
         try {
             if (!userConfig()) {
                 createResourcesDir();
@@ -104,7 +104,7 @@ public class DiskWorker {
     }
 
     private void wrightUserInfo() throws IOException {
-        String userInfoWright = "username: " + user.getUserName();
+        String userInfoWright = "userName: " + user.getUserName();
         String userLibraries = "userLibraries: ";
         Files.writeString(Path.of(PATH_TO_USER_COFIG), (userInfoWright + "\n" + userLibraries),
                 StandardOpenOption.APPEND);

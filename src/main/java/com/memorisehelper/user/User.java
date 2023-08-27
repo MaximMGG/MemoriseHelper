@@ -1,9 +1,6 @@
 package com.memorisehelper.user;
 
-import java.io.IOException;
 import java.util.List;
-
-import com.memorisehelper.filesystem.DiskWorker;
 
 public class User {
     
@@ -30,9 +27,8 @@ public class User {
         return library.getLibraryName();
     }
 
-    public void setUserName(String userName) throws IOException {
+    public void setUserName(String userName) {
         this.userName = userName;
-        this.userLibraries = new DiskWorker().getUserLibraries();
     }
 
     public List<String> getUserLibraries() {
