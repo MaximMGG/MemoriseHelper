@@ -2,6 +2,7 @@ package com.memorisehelper.utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -135,5 +136,14 @@ public class MemoriseUtils {
             changedWord(writeInt());
         }
         return null;
+    }
+
+    public static Map<String, String> transformLibraryFromListToMap(List<String> listLibrary) {
+        Map<String, String> mapLibrary = new HashMap<>();
+        for(String s : listLibrary) {
+            String[] temp = s.split(" : ");
+            mapLibrary.put(temp[0], temp[1]);
+        }
+        return mapLibrary;
     }
 }
