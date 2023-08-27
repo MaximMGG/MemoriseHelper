@@ -1,7 +1,6 @@
 package com.memorisehelper.clientTouch.libraryWorker;
 
 import java.io.IOException;
-import java.util.Map;
 
 import com.memorisehelper.filesystem.DiskWorker;
 import com.memorisehelper.user.Library;
@@ -19,15 +18,11 @@ public class ChangeLibraryWorker {
     }
 
     /**
-     * @param position
+     * @param word
+     * @param translations
      */
-    public void changeWord(String word, String translations) {
-        if (library.getCurrentLibrary().containsKey(word)) {
-            library.put(word, translations);
-        } else {
-            library.remove(word);
-            library.put(word, translations);
-        }
+    public void changeWordsTranlation(String word, String translations) {
+        library.getCurrentLibrary().put(word, translations);
     }
 
     public void saveLibrary() throws IOException {

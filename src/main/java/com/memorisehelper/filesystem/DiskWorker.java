@@ -22,7 +22,9 @@ public class DiskWorker {
     private static final DiskWorker INSTACE = new DiskWorker();
     private Library library = Library.getInstance();
 
-    public DiskWorker() {
+    public DiskWorker() {}
+
+    private void firstInitialize() {
         try {
             if (!userConfig()) {
                 createResourcesDir();
