@@ -50,7 +50,7 @@ public class DiskWorker {
         List<String> usersConfig = Files.readAllLines(Path.of(PATH_TO_USER_COFIG));
         List<String> users = new ArrayList<>();
         for (String user : usersConfig) {
-            Pattern p = Pattern.compile("username: ([A-z]*)");
+            Pattern p = Pattern.compile("userName: ([A-z]*)");
             Matcher m = p.matcher(user);
             if (m.find()) {
                 users.add(m.group(1).toLowerCase());
@@ -61,7 +61,7 @@ public class DiskWorker {
 
     public List<String> getUserLibraries() throws IOException {
         List<String> libraries = Files.readAllLines(Path.of(PATH_TO_USER_COFIG));
-        String username = "username: " + user.getUserName();
+        String username = "userName: " + user.getUserName();
         List<String> lib = new ArrayList<>();
         for (int i = 0; i < libraries.size(); i++) {
            if (username.equals(libraries.get(i))) {
@@ -88,7 +88,7 @@ public class DiskWorker {
         List<String> userConfig = Files.readAllLines(Path.of(PATH_TO_USER_COFIG));
         for (int i = 0; i < userConfig.size(); i++) {
             String[] parsString = userConfig.get(i).split(" ");
-            if (parsString[0].equals("username:")) {
+            if (parsString[0].equals("userName:")) {
                 if (parsString[1].equals(user.getUserName())) {
                     String a = userConfig.get(i + 1);
                     userConfig.remove(i + 1);
@@ -105,7 +105,7 @@ public class DiskWorker {
 
     private void wrightUserInfo() throws IOException {
         String userInfoWright = "userName: " + user.getUserName();
-        String userLibraries = "userLibraries: ";
+        String userLibraries = "userLibraries:";
         Files.writeString(Path.of(PATH_TO_USER_COFIG), (userInfoWright + "\n" + userLibraries),
                 StandardOpenOption.APPEND);
     }

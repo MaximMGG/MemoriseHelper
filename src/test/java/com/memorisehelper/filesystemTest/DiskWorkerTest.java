@@ -71,7 +71,7 @@ public class DiskWorkerTest {
 
 
         assertTrue(Files.exists(Path.of("resources/libraries/ViniaminLibrary/basics.txt")));
-        assertTrue(userInfoEqualse("basic"));
+        assertTrue(userInfoEqualse("basics"));
         assertTrue(mapsEquals(library,
                 MemoriseUtils.transformLibraryFromListToMap(
                         Files.readAllLines(Path.of("resources/libraries/ViniaminLibrary/basics.txt")))));
