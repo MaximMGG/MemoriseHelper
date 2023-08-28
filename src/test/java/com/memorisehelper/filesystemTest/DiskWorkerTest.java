@@ -10,12 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.After;
 import org.junit.Test;
 
 import com.memorisehelper.filesystem.DiskWorker;
 import com.memorisehelper.user.Library;
 import com.memorisehelper.user.User;
+import com.memorisehelper.utils.MemoriseUtils;
 
 public class DiskWorkerTest {
     
@@ -69,16 +69,32 @@ public class DiskWorkerTest {
         currentLibrary.setLibraryName("basics");
         diskWorker.saveLibraryOnDisk();
 
+
         assertTrue(Files.exists(Path.of("resources/libraries/ViniaminLibrary/basics.txt")));
         assertTrue(userInfoEqualse("basic"));
+        assertTrue(mapsEquals(library,
+                MemoriseUtils.transformLibraryFromListToMap(
+                        Files.readAllLines(Path.of("resources/libraries/ViniaminLibrary/basics.txt")))));
+    }
+
+    private boolean mapsEquals(Map<String, String> first, Map<String, String> second) {
+        boolean flag = false;
+        for (Map.Entry<String, String> entry : first.entrySet()) {
+            if (second.containsKey(entry.getKey()) && second.containsValue(entry.getValue())) {
+                flag = true;
+            } else {
+                return false;
+            }
+        }
+        return flag;
     }
 
 
-    @After
-    public void deleteAllTestFiles() throws IOException {
-        Files.delete(Path.of("resources/userInfo.txt"));
-        Files.delete(Path.of("resources/libraries/ViniaminLibrary"));
-        Files.delete(Path.of("resources/libraries"));
-        Files.delete(Path.of("resources"));
-    }
+    // @After
+    // public void deleteAllTestFiles() throws IOException {
+    //     Files.delete(Path.of("resources/userInfo.txt"));
+    //     Files.delete(Path.of("resources/libraries/ViniaminLibrary"));
+    //     Files.delete(Path.of("resources/libraries"));
+    //     Files.delete(Path.of("resources"));
+    // }
 }
