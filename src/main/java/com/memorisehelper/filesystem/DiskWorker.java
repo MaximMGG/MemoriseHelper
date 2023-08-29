@@ -6,23 +6,41 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.memorisehelper.clientTouch.libraryWorker.LibraryStatus;
 import com.memorisehelper.user.Library;
 import com.memorisehelper.user.User;
 
 public class DiskWorker {
 
-    private final String PATH_TO_USER_COFIG = "resources/userInfo.txt";
-    private final String PATH_TO_LIBRARY_DIR = "resources/libraries";
-    private User user = User.getUser();
+    private static User user = User.getUser();
+    private static Library library = Library.getInstance();
+    private String PATH_TO_USER_COFIG = "resources/userInfo.txt";
+    private String PATH_TO_LIBRARY_DIR = "resources/libraries";
+    private String PATH_TO_CURRENT_LIBRARY = PATH_TO_LIBRARY_DIR + "/" + user.getUserName() + "Library/" + 
+                library.getLibraryName() + ".txt";
     private static final DiskWorker INSTACE = new DiskWorker();
-    private Library library = Library.getInstance();
 
-    public DiskWorker() {}
+    private DiskWorker() {}
+    public static void main(String[] args) throws IOException {
+        DiskWorker dw = DiskWorker.getInstance();
+        User u = User.getUser();
+        Library l = Library.getInstance();
+        u.setUserName("Viniamin");
+        Map<String, String> lib = new HashMap<>();
+        lib.put("cat", "кот, кошка");
+        lib.put("dog", "собака, пес");
+        lib.put("man", "мужчина");
+        lib.put("woman", "жетщина");
+        l.setCurrentLibrary(lib);
+        l.setLibraryName("basics");
+        dw.saveLibraryOnDisk(LibraryStatus.CREATE);
+    }
 
     public void firstInitialize() {
         try {
@@ -72,14 +90,23 @@ public class DiskWorker {
         return lib.stream().skip(1).toList();
     }
 
-    public boolean saveLibraryOnDisk() throws IOException {
-        addLibraryInUserConfig();
-        File libraryFile = null;
-        libraryFile = new File("resources/libraries/" + user.getUserName() + "Library/" + library.getLibraryName() + ".txt");
-        libraryFile.createNewFile();
-        for (Map.Entry<String, String> entry : library.getCurrentLibrary().entrySet()) {
-            Files.writeString(Path.of(PATH_TO_LIBRARY_DIR + "/"+ user.getUserName() + "Library/" + library.getLibraryName() + ".txt"),
-                    (entry.getKey() + " : " + entry.getValue() + "\n"), StandardOpenOption.APPEND);
+    public boolean saveLibraryOnDisk(LibraryStatus status) throws IOException {
+        System.out.println(test);
+        Path path = Path.of(PATH_TO_CURRENT_LIBRARY);
+        if (status == LibraryStatus.CREATE) {
+            addLibraryInUserConfig();
+            File libraryFile = null;
+            libraryFile = new File(PATH_TO_CURRENT_LIBRARY);
+            libraryFile.createNewFile();
+            for (Map.Entry<String, String> entry : library.getCurrentLibrary().entrySet()) {
+                Files.writeString(path,
+                        (entry.getKey() + " : " + entry.getValue() + "\n"), StandardOpenOption.APPEND);
+            }
+        } else if (status == LibraryStatus.REWRITE) {
+            for (Map.Entry<String, String> entry : library.getCurrentLibrary().entrySet()) {
+                Files.writeString(Path.of(PATH_TO_CURRENT_LIBRARY),
+                        (entry.getKey() + " : " + entry.getValue() + "\n"), StandardOpenOption.TRUNCATE_EXISTING);
+            }
         }
         return true;
     }

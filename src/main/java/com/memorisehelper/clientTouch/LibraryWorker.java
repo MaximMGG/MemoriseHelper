@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import com.memorisehelper.clientTouch.libraryWorker.ChangeLibraryWorker;
 import com.memorisehelper.clientTouch.libraryWorker.CreateLibraryWorker;
+import com.memorisehelper.clientTouch.libraryWorker.LibraryWorkHelper;
 import com.memorisehelper.filesystem.DiskWorker;
 import com.memorisehelper.libraries.SearchWord;
 import com.memorisehelper.user.Library;
@@ -21,7 +21,6 @@ public class LibraryWorker {
     private Scanner scan;
     private static final LibraryWorker INSTANCE = new LibraryWorker();
     private CreateLibraryWorker createLibraryWorker = CreateLibraryWorker.getInstance();
-    private ChangeLibraryWorker changeLibraryWorker = ChangeLibraryWorker.getInstance();
     private SearchWord searchWord = SearchWord.getInstance();
     private StartApp START_APP = StartApp.getInstance();
     private Library library = Library.getInstance();
@@ -123,8 +122,11 @@ public class LibraryWorker {
         System.out.println("Which word do you want to change?");
         System.out.println("Wright 0 if you want to add some new word");
         if (MemoriseUtils.writeInt() != 0) {
-           String word = MemoriseUtils.changedWord(MemoriseUtils.writeInt());
-           searchWord.getTranslations(word);
+           String word = MemoriseUtils.getChangingWord(MemoriseUtils.writeInt());
+           System.out.println("Here is word and translations: \n" + word);
+        } else {
+            String[] newWord = LibraryWorkHelper.takeWordAndGetTranslations().split(" : ");
+            library.put(newWord[0], newWord[1]);
         }
 
     }

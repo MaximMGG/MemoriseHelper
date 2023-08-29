@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.memorisehelper.clientTouch.libraryWorker.LibraryStatus;
 import com.memorisehelper.filesystem.DiskWorker;
 import com.memorisehelper.user.Library;
 import com.memorisehelper.user.User;
@@ -56,7 +57,7 @@ public class DiskWorkerTest {
     }
 
     @Test
-    public void saveLibraryOnDiskTest() throws IOException {
+    public void saveLibraryOnDiskCreateTest() throws IOException {
 
         user.setUserName("Viniamin");
         diskWorker.firstInitialize();
@@ -67,7 +68,7 @@ public class DiskWorkerTest {
         library.put("woman", "жетщина");
         currentLibrary.setCurrentLibrary(library);
         currentLibrary.setLibraryName("basics");
-        diskWorker.saveLibraryOnDisk();
+        diskWorker.saveLibraryOnDisk(LibraryStatus.CREATE);
 
 
         assertTrue(Files.exists(Path.of("resources/libraries/ViniaminLibrary/basics.txt")));

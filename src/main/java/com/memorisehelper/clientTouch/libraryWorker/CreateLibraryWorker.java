@@ -24,7 +24,7 @@ public class CreateLibraryWorker {
 
     public void saveLibrary() throws IOException {
         if (library != null) {
-            DISKWORKER.saveLibraryOnDisk();
+            DISKWORKER.saveLibraryOnDisk(LibraryStatus.CREATE);
         } else {
             System.out.println("Can't do it, library is empty or libraryName is blanc");
         }

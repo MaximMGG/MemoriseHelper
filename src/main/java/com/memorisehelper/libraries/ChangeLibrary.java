@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import com.memorisehelper.clientTouch.LibraryWorker;
 import com.memorisehelper.clientTouch.StartApp;
+import com.memorisehelper.clientTouch.libraryWorker.LibraryStatus;
 import com.memorisehelper.filesystem.DiskWorker;
 import com.memorisehelper.user.User;
 import com.memorisehelper.utils.MemoriseUtils;
@@ -67,7 +68,7 @@ public class ChangeLibrary {
                 System.out.println("Do you want to save changed library?");
                 if (MemoriseUtils.yesNo()) {
                     unMuteCurrentLibrary();
-                    diskWorker.saveLibraryOnDisk();
+                    diskWorker.saveLibraryOnDisk(LibraryStatus.CREATE);
                     StartApp.getInstance().mainMenuUserChose();
                 } else {
                     StartApp.getInstance().mainMenuUserChose();

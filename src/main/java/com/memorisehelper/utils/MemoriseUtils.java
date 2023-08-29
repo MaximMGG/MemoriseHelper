@@ -122,7 +122,7 @@ public class MemoriseUtils {
         return userLibrary;
     }
 
-    public static String changedWord(int index) {
+    public static String getChangingWord(int index) {
         try {
             int i = 1;
             for(Map.Entry<String, String> entry : library.getCurrentLibrary().entrySet()) {
@@ -133,7 +133,7 @@ public class MemoriseUtils {
             }
         } catch (Exception e) {
             System.out.println("You don't have word with this number, please write number agane");
-            changedWord(writeInt());
+            getChangingWord(writeInt());
         }
         return null;
     }
