@@ -91,7 +91,6 @@ public class DiskWorker {
     }
 
     public boolean saveLibraryOnDisk(LibraryStatus status) throws IOException {
-        System.out.println(test);
         Path path = Path.of(PATH_TO_CURRENT_LIBRARY);
         if (status == LibraryStatus.CREATE) {
             addLibraryInUserConfig();
