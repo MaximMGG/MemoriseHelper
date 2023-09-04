@@ -1,5 +1,6 @@
 package com.memorisehelper.filesystem;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -10,21 +11,26 @@ public class DiskWorker {
 
     private static final User user = User.getUser();
     private static final Library library = Library.getInstance();
-    public static DiskWorker diskWorker;
+    private static DiskWorker diskWorker;
+    private static DiskWorkerHelper diskWorkerHelper = DiskWorkerHelper.getInstance();
 
     private DiskWorker() {}
 
     public static DiskWorker getInstance() {
         if (diskWorker == null) {
             if (userInfoExist()) {
-                initialize();
+                try {
+                    initialize();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 diskWorker = new DiskWorker();
             }
         }
         return diskWorker;
     }
-    private static void initialize() {
-
+    private static void initialize() throws IOException {
+        diskWorkerHelper.createUserInfo();
     }
 
     private static boolean userInfoExist() {

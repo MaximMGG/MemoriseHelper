@@ -26,6 +26,6 @@ public class ChangeLibraryWorker {
     }
 
     public void saveLibrary() throws IOException {
-        DISKWORKER.saveLibraryOnDisk(LibraryStatus.CREATE);
+        // DISKWORKER.saveLibraryOnDisk(LibraryStatus.CREATE);
     }
 }

@@ -112,11 +112,11 @@ public class LibraryWorker {
     public void changeLibrary() throws IOException {
         user.printUserLibraries();
         System.out.println("Wich library do you want to change");
-        library.setCurrentLibrary(
-                library.parseLibrary(
-                    diskWorker.getLibraryContent(
-                        MemoriseUtils.getUserChangeLibrary(
-                            diskWorker.getUserLibraries()))));
+        // library.setCurrentLibrary(
+        //         library.parseLibrary(
+        //             diskWorker.getLibraryContent(
+        //                 MemoriseUtils.getUserChangeLibrary(
+        //                     // diskWorker.getUserLibraries()))));
         System.out.println("Current library is");
         library.printLibrary();
         System.out.println("Which word do you want to change?");

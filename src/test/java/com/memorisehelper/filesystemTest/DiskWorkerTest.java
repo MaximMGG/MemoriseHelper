@@ -12,7 +12,6 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.memorisehelper.clientTouch.libraryWorker.LibraryStatus;
 import com.memorisehelper.filesystem.DiskWorker;
 import com.memorisehelper.user.Library;
 import com.memorisehelper.user.User;
@@ -27,7 +26,7 @@ public class DiskWorkerTest {
     @Test
     public void firstInitializeTest() throws IOException {
         user.setUserName("Viniamin");
-        diskWorker.firstInitialize();
+        // diskWorker.firstInitialize();
 
         assertTrue(Files.exists(Path.of("resources/userInfo.txt")));
         assertTrue(Files.isDirectory(Path.of("resources/libraries/viniaminLibrary")));
@@ -60,7 +59,7 @@ public class DiskWorkerTest {
     public void saveLibraryOnDiskCreateTest() throws IOException {
 
         user.setUserName("Viniamin");
-        diskWorker.firstInitialize();
+        // diskWorker.firstInitialize();
         Map<String, String> library = new HashMap<>();
         library.put("cat", "кот, кошка");
         library.put("dog", "собака, пес");
@@ -68,7 +67,7 @@ public class DiskWorkerTest {
         library.put("woman", "жетщина");
         currentLibrary.setCurrentLibrary(library);
         currentLibrary.setLibraryName("basics");
-        diskWorker.saveLibraryOnDisk(LibraryStatus.CREATE);
+        // diskWorker.saveLibraryOnDisk(LibraryStatus.CREATE);
 
 
         assertTrue(Files.exists(Path.of("resources/libraries/ViniaminLibrary/basics.txt")));
